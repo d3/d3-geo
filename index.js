@@ -25,3 +25,4 @@ export {default as geoTransverseMercator} from "./src/projection/transverseMerca
 export {default as geoRotation} from "./src/rotation";
 export {default as geoStream} from "./src/stream";
 export {default as geoTransform} from "./src/transform";
+export {default as geoTile} from "./src/tile";
