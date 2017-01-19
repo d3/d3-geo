@@ -288,7 +288,7 @@ The conic equidistant projection. See also [*conic*.parallels](#conic_parallels)
 
 #### Cylindrical Projections
 
-Conic projections project the sphere onto a containing cylinder, and then unroll the cylinder onto the plane.
+Cylindrical projections project the sphere onto a containing cylinder, and then unroll the cylinder onto the plane.
 
 <a href="#geoEquirectangular" name="geoEquirectangular">#</a> d3.<b>geoEquirectangular</b>() [<>](https://github.com/d3/d3-geo/blob/master/src/projection/equirectangular.js "Source")
 <br><a href="#geoEquirectangularRaw" name="geoEquirectangularRaw">#</a> d3.<b>geoEquirectangularRaw</b>
