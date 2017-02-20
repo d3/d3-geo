@@ -211,7 +211,7 @@ tape("the centroid of the sphere and a point is the point", function(test) {
   test.end();
 });
 
-tape("the centroid of a deiled feature is correct", function(test) {
+tape("the centroid of a detailed feature is correct", function(test) {
   var ny = require("./data/ny.json");
   test.inDelta(d3.geoCentroid(ny), [-73.93079, 40.69447], 1e-5);
   test.end();
