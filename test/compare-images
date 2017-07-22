@@ -9,6 +9,7 @@ for i in \
     equirectangular \
     gnomonic \
     mercator \
+    naturalEarth1 \
     orthographic \
     stereographic \
     transverseMercator; do
