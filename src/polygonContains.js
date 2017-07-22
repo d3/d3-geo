@@ -11,6 +11,18 @@ export default function(polygon, point) {
       angle = 0,
       winding = 0;
 
+  // if the point is close to the South Pole, reverse everything (#105)
+  if (sin(phi) < -1 + epsilon) {
+    polygon = polygon.map(function(ring) {
+      return ring.map(function(o) {
+        return [o[0], -o[1]];
+      })
+      .reverse();
+    });
+    point = [point[0], -point[1]];
+    phi = -phi;
+  }
+
   sum.reset();
 
   for (var i = 0, n = polygon.length; i < n; ++i) {
