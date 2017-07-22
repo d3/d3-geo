@@ -45,8 +45,17 @@ export function projectionMutator(projectAt) {
     return x = project(x, y), [x[0] * k + dx, dy - x[1] * k];
   }
 
+  function rotateTransform(rotate) {
+    return transformer({
+        point: function(x,y) {
+          var r = rotate(x,y);
+          return this.stream.point(r[0],r[1]);
+        }
+    });
+  }
+
   projection.stream = function(stream) {
-    return cache && cacheStream === stream ? cache : cache = transformRadians(preclip(rotate, projectResample(postclip(cacheStream = stream))));
+    return cache && cacheStream === stream ? cache : cache = transformRadians(rotateTransform(rotate)(preclip(projectResample(postclip(cacheStream = stream)))));
   };
 
   projection.clipAngle = function(_) {
