@@ -1,5 +1,6 @@
 import clipAntimeridian from "../clip/antimeridian";
 import clipCircle from "../clip/circle";
+import clipPolygon from "../clip/polygon";
 import {clipExtent} from "../clip/extent";
 import compose from "../compose";
 import identity from "../identity";
@@ -25,7 +26,9 @@ export function projectionMutator(projectAt) {
       x = 480, y = 250, // translate
       dx, dy, lambda = 0, phi = 0, // center
       deltaLambda = 0, deltaPhi = 0, deltaGamma = 0, rotate, projectRotate, // rotate
-      theta = null, preclip = clipAntimeridian, // clip angle
+      preclip = clipAntimeridian(), // default clip
+      theta = null, // clip angle
+      polygon = null, // clip polygon
       x0 = null, y0, x1, y1, postclip = identity, // clip extent
       delta2 = 0.5, projectResample = resample(projectTransform, delta2), // precision
       cache,
@@ -50,13 +53,16 @@ export function projectionMutator(projectAt) {
   };
 
   projection.clipAngle = function(_) {
-    return arguments.length ? (preclip = +_ ? clipCircle(theta = _ * radians, 6 * radians) : (theta = null, clipAntimeridian), reset()) : theta * degrees;
+    return arguments.length ? (preclip = +_ ? clipCircle(theta = _ * radians, 6 * radians) : (theta = null, clipAntimeridian()), reset()) : theta * degrees;
   };
 
   projection.clipExtent = function(_) {
     return arguments.length ? (postclip = _ == null ? (x0 = y0 = x1 = y1 = null, identity) : clipExtent(x0 = +_[0][0], y0 = +_[0][1], x1 = +_[1][0], y1 = +_[1][1]), reset()) : x0 == null ? null : [[x0, y0], [x1, y1]];
   };
 
+  projection.clipPolygon = function(_) {
+    return arguments.length ? (preclip = _.length ? clipPolygon(polygon = _) : (polygon = theta = null, clipAntimeridian()), reset()) : polygon;
+  };
   projection.scale = function(_) {
     return arguments.length ? (k = +_, recenter()) : k;
   };
