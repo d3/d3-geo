@@ -4,10 +4,6 @@ import {cartesian, cartesianCross, cartesianDot, cartesianEqual, spherical} from
 import {intersectCoincident, intersectPointOnLine, intersectSegment, intersect} from "../intersect";
 import {default as polygonContains} from "../polygonContains";
 
-/*
-import "distance";
-*/
-
 // clipPolygon
 export default function (polygon) {
   var segments = [];
