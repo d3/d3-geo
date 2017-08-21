@@ -1,5 +1,6 @@
 import clipAntimeridian from "../clip/antimeridian";
 import clipCircle from "../clip/circle";
+import clipNone from "../clip/none";
 import clipPolygon from "../clip/polygon";
 import {clipExtent} from "../clip/extent";
 import compose from "../compose";
@@ -52,17 +53,31 @@ export function projectionMutator(projectAt) {
     return cache && cacheStream === stream ? cache : cache = transformRadians(preclip(rotate, projectResample(postclip(cacheStream = stream))));
   };
 
+  // spherical clipping (preclip)
+  // clip(a) :
+  // - if a is null, return the current clipAngle or Polygon
+  // - if a is an array: clipPolygon
+  // - if a is a number (theta):
+  // - if theta > 0 clips at angle theta
+  // - if theta === 0 use clipAntimeridian()
+  // - if theta < 0 use clipNone
   projection.clipAngle = function(_) {
-    return arguments.length ? (preclip = +_ ? clipCircle(theta = _ * radians, 6 * radians) : (theta = null, clipAntimeridian()), reset()) : theta * degrees;
+    if (!arguments.length) return theta ? theta * degrees : null;
+    theta = +_ * radians;
+    if (!theta) return theta = null, preclip = clipAntimeridian(), reset();
+    if (theta < 0) return preclip = clipNone(), reset();
+    return preclip = clipCircle(theta, 6 * radians), reset();
   };
 
+  projection.clipPolygon = function(_) {
+    return arguments.length ? (preclip = _.length ? clipPolygon(polygon = _) : (polygon = theta = null, clipNone()), reset()) : polygon;
+  };
+
+  // planar clipping (postclip)
   projection.clipExtent = function(_) {
     return arguments.length ? (postclip = _ == null ? (x0 = y0 = x1 = y1 = null, identity) : clipExtent(x0 = +_[0][0], y0 = +_[0][1], x1 = +_[1][0], y1 = +_[1][1]), reset()) : x0 == null ? null : [[x0, y0], [x1, y1]];
   };
 
-  projection.clipPolygon = function(_) {
-    return arguments.length ? (preclip = _.length ? clipPolygon(polygon = _) : (polygon = theta = null, clipAntimeridian()), reset()) : polygon;
-  };
   projection.scale = function(_) {
     return arguments.length ? (k = +_, recenter()) : k;
   };
