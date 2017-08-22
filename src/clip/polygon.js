@@ -1,5 +1,5 @@
 import clip from "./index";
-import {atan2, pi, radians, sqrt} from "../math";
+import {atan2, cos, pi, radians, sign, sin, sqrt} from "../math";
 import {cartesian, cartesianCross, cartesianDot, cartesianEqual, spherical} from "../cartesian";
 import {intersectCoincident, intersectPointOnLine, intersectSegment, intersect} from "../intersect";
 import {default as polygonContains} from "../polygonContains";
@@ -38,6 +38,7 @@ export default function (polygon) {
         clean = 1;
       },
       point: function(lambda, phi, close) {
+        if (cos(lambda) == -1) lambda -= sign(sin(lambda)) * 1e-5; // move away from -180/180 https://github.com/d3/d3-geo/pull/108#issuecomment-323798937
         if (close) lambda = lambda00, phi = phi00;
         var point = cartesian([lambda, phi]),
             v = v0,
