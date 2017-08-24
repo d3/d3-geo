@@ -54,13 +54,6 @@ export function projectionMutator(projectAt) {
   };
 
   // spherical clipping (preclip)
-  // clip(a) :
-  // - if a is null, return the current clipAngle or Polygon
-  // - if a is an array: clipPolygon
-  // - if a is a number (theta):
-  // - if theta > 0 clips at angle theta
-  // - if theta === 0 use clipAntimeridian()
-  // - if theta < 0 use clipNone
   projection.clipAngle = function(_) {
     if (!arguments.length) return theta ? theta * degrees : null;
     theta = +_ * radians;
@@ -69,8 +62,12 @@ export function projectionMutator(projectAt) {
     return preclip = clipCircle(theta, 6 * radians), reset();
   };
 
+  projection.clipNone = function() {
+    return projection.clipAngle(-1);
+  };
+
   projection.clipPolygon = function(_) {
-    return arguments.length ? (preclip = _.length ? clipPolygon(polygon = _) : (polygon = theta = null, clipNone()), reset()) : polygon;
+    return arguments.length ? (preclip = (_ && _.length) ? clipPolygon(polygon = _) : (polygon = theta = null, clipNone()), reset()) : polygon;
   };
 
   // planar clipping (postclip)
