@@ -58,12 +58,7 @@ export function projectionMutator(projectAt) {
     if (!arguments.length) return theta ? theta * degrees : null;
     theta = +_ * radians;
     if (!theta) return theta = null, preclip = clipAntimeridian(), reset();
-    if (theta < 0) return preclip = clipNone(), reset();
     return preclip = clipCircle(theta, 6 * radians), reset();
-  };
-
-  projection.clipNone = function() {
-    return projection.clipAngle(-1);
   };
 
   projection.clipPolygon = function(_) {
