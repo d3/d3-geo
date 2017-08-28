@@ -55,11 +55,10 @@ export function projectionMutator(projectAt) {
 
   // spherical clipping (preclip)
 
-  // if argument is false-ish, does not set preclip
+  // if argument is false-ish, falls back to clipNone
   projection.clipAntimeridian = function(_) {
     if (!arguments.length) return polygon === null && theta === null;
-    if (_) preclip = clipAntimeridian(), polygon = theta = null;
-    return reset();
+    return preclip = _ ? clipAntimeridian() : clipNone(), polygon = theta = null, reset();
   };
 
   // if argument is false-ish, falls back to Antimeridian
