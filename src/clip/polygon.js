@@ -1,14 +1,17 @@
 import clip from "./index";
+import clipNone from "./none";
 import {atan2, cos, pi, radians, sign, sin, sqrt} from "../math";
 import {cartesian, cartesianCross, cartesianDot, cartesianEqual, spherical} from "../cartesian";
 import {intersectCoincident, intersectPointOnLine, intersectSegment, intersect} from "../intersect";
 import {default as polygonContains} from "../polygonContains";
 
 // clipPolygon
-export default function (polygon) {
+export default function (p) {
   var segments = [];
 
-  polygon = polygon.map(function(ring) {
+  if (p.type != "Polygon") return clipNone(); // todo: MultiPolygon?
+
+  var polygon = p.coordinates.map(function(ring) {
     var c, c0;
     ring = ring.map(function(point, i) {
       c = cartesian(point = [point[0] * radians, point[1] * radians]);

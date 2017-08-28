@@ -20,7 +20,7 @@ tape("clipAntimeridian clips line", function(test) {
 });
 
 tape("clipPolygon clips line", function(test) {
-  var projection = d3.geoEquirectangular().clipAngle(10).clipPolygon([[[-10, -10], [-10, 10], [10, 10], [10, -10], [-10, -10],]]);
+  var projection = d3.geoEquirectangular().clipAngle(10).clipPolygon({ type: "Polygon", coordinates: [[[-10, -10], [-10, 10], [10, 10], [10, -10], [-10, -10]]] });
   var path = d3.geoPath()
     .projection(projection);
   test.equal(path({type:"LineString", coordinates:[[-20,0], [20,0]]}), path({type:"LineString", coordinates:[[-10.5,0], [10.5,0]]}));

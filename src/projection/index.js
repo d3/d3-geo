@@ -71,7 +71,7 @@ export function projectionMutator(projectAt) {
 
   // if argument is false-ish, falls back to clipNone
   projection.clipPolygon = function(_) {
-    return arguments.length ? (preclip = (_ && _.length) ? clipPolygon(polygon = _) : (polygon = theta = null, clipNone()), reset()) : polygon;
+    return arguments.length ? (preclip = _ ? clipPolygon(polygon = _) : (polygon = theta = null, clipNone()), reset()) : polygon;
   };
 
   // planar clipping (postclip)
