@@ -215,7 +215,6 @@ The Natural Earth projection is a pseudo-cylindrical map projection designed by 
 
 The Natural Earth projection.
 
-
 #### Azimuthal Projections
 
 Azimuthal projections project the sphere directly onto a plane.
