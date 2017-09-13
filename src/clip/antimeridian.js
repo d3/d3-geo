@@ -1,17 +1,12 @@
 import clip from "./index";
 import {abs, atan, cos, epsilon, halfPi, pi, sin} from "../math";
 
-export default clip(
-  function() { return true; },
-  clipAntimeridianLine,
-  clipAntimeridianInterpolate,
-  [-pi, -halfPi]
-);
+export default function() {
 
 // Takes a line and cuts into visible segments. Return values: 0 - there were
 // intersections or the line was empty; 1 - no intersections; 2 - there were
 // intersections, and the first and last segments should be rejoined.
-function clipAntimeridianLine(stream) {
+function clipLine(stream) {
   var lambda0 = NaN,
       phi0 = NaN,
       sign0 = NaN,
@@ -67,7 +62,7 @@ function clipAntimeridianIntersect(lambda0, phi0, lambda1, phi1) {
       : (phi0 + phi1) / 2;
 }
 
-function clipAntimeridianInterpolate(from, to, direction, stream) {
+function interpolate(from, to, direction, stream) {
   var phi;
   if (from == null) {
     phi = direction * halfPi;
@@ -89,4 +84,11 @@ function clipAntimeridianInterpolate(from, to, direction, stream) {
   } else {
     stream.point(to[0], to[1]);
   }
+}
+
+function visible() {
+  return true;
+} 
+
+  return clip(visible, clipLine, interpolate, [-pi, -halfPi]);
 }

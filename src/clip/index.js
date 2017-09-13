@@ -1,10 +1,12 @@
 import clipBuffer from "./buffer";
-import clipPolygon from "./polygon";
+import clipRejoin from "./rejoin";
 import {epsilon, halfPi} from "../math";
 import polygonContains from "../polygonContains";
 import {merge} from "d3-array";
 
-export default function(pointVisible, clipLine, interpolate, start) {
+export default function(pointVisible, clipLine, interpolate, start, sort) {
+  if (typeof sort === "undefined") sort = compareIntersection;
+
   return function(rotate, sink) {
     var line = clipLine(sink),
         rotatedStart = rotate.invert(start[0], start[1]),
@@ -34,7 +36,7 @@ export default function(pointVisible, clipLine, interpolate, start) {
         var startInside = polygonContains(polygon, rotatedStart);
         if (segments.length) {
           if (!polygonStarted) sink.polygonStart(), polygonStarted = true;
-          clipPolygon(segments, compareIntersection, startInside, interpolate, sink);
+          clipRejoin(segments, sort, startInside, interpolate, sink);
         } else if (startInside) {
           if (!polygonStarted) sink.polygonStart(), polygonStarted = true;
           sink.lineStart();
@@ -73,10 +75,10 @@ export default function(pointVisible, clipLine, interpolate, start) {
       line.lineEnd();
     }
 
-    function pointRing(lambda, phi) {
+    function pointRing(lambda, phi, close) {
       ring.push([lambda, phi]);
       var point = rotate(lambda, phi);
-      ringSink.point(point[0], point[1]);
+      ringSink.point(point[0], point[1], close);
     }
 
     function ringStart() {
@@ -85,7 +87,7 @@ export default function(pointVisible, clipLine, interpolate, start) {
     }
 
     function ringEnd() {
-      pointRing(ring[0][0], ring[0][1]);
+      pointRing(ring[0][0], ring[0][1], true);
       ringSink.lineEnd();
 
       var clean = ringSink.clean(),

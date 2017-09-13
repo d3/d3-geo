@@ -1,7 +1,7 @@
 import {abs, epsilon} from "../math";
 import clipBuffer from "./buffer";
 import clipLine from "./line";
-import clipPolygon from "./polygon";
+import clipRejoin from "./rejoin";
 import {merge} from "d3-array";
 
 var clipMax = 1e9, clipMin = -clipMax;
@@ -102,7 +102,7 @@ export function clipExtent(x0, y0, x1, y1) {
           stream.lineEnd();
         }
         if (visible) {
-          clipPolygon(segments, compareIntersection, startInside, interpolate, stream);
+          clipRejoin(segments, compareIntersection, startInside, interpolate, stream);
         }
         stream.polygonEnd();
       }

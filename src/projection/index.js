@@ -1,5 +1,7 @@
 import clipAntimeridian from "../clip/antimeridian";
 import clipCircle from "../clip/circle";
+import clipNone from "../clip/none";
+import clipPolygon from "../clip/polygon";
 import {clipExtent} from "../clip/extent";
 import compose from "../compose";
 import identity from "../identity";
@@ -25,7 +27,9 @@ export function projectionMutator(projectAt) {
       x = 480, y = 250, // translate
       dx, dy, lambda = 0, phi = 0, // center
       deltaLambda = 0, deltaPhi = 0, deltaGamma = 0, rotate, projectRotate, // rotate
-      theta = null, preclip = clipAntimeridian, // clip angle
+      preclip = clipAntimeridian(), // default clip
+      theta = null, // clip angle
+      polygon = null, // clip polygon
       x0 = null, y0, x1, y1, postclip = identity, // clip extent
       delta2 = 0.5, projectResample = resample(projectTransform, delta2), // precision
       cache,
@@ -49,10 +53,28 @@ export function projectionMutator(projectAt) {
     return cache && cacheStream === stream ? cache : cache = transformRadians(preclip(rotate, projectResample(postclip(cacheStream = stream))));
   };
 
-  projection.clipAngle = function(_) {
-    return arguments.length ? (preclip = +_ ? clipCircle(theta = _ * radians, 6 * radians) : (theta = null, clipAntimeridian), reset()) : theta * degrees;
+  // spherical clipping (preclip)
+
+  // if argument is false-ish, falls back to clipNone
+  projection.clipAntimeridian = function(_) {
+    if (!arguments.length) return polygon === null && theta === null;
+    return preclip = _ ? clipAntimeridian() : clipNone(), polygon = theta = null, reset();
   };
 
+  // if argument is false-ish, falls back to Antimeridian
+  projection.clipAngle = function(_) {
+    if (!arguments.length) return theta ? theta * degrees : null;
+    theta = +_ * radians;
+    if (!theta) return theta = null, preclip = clipAntimeridian(), reset();
+    return preclip = clipCircle(theta, 6 * radians), reset();
+  };
+
+  // if argument is false-ish, falls back to clipNone
+  projection.clipPolygon = function(_) {
+    return arguments.length ? (preclip = _ ? clipPolygon(polygon = _) : (polygon = theta = null, clipNone()), reset()) : polygon;
+  };
+
+  // planar clipping (postclip)
   projection.clipExtent = function(_) {
     return arguments.length ? (postclip = _ == null ? (x0 = y0 = x1 = y1 = null, identity) : clipExtent(x0 = +_[0][0], y0 = +_[0][1], x1 = +_[1][0], y1 = +_[1][1]), reset()) : x0 == null ? null : [[x0, y0], [x1, y1]];
   };
