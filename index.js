@@ -21,7 +21,7 @@ export {default as geoGnomonic, gnomonicRaw as geoGnomonicRaw} from "./src/proje
 export {default as geoIdentity} from "./src/projection/identity";
 export {default as geoProjection, projectionMutator as geoProjectionMutator} from "./src/projection/index";
 export {default as geoMercator, mercatorRaw as geoMercatorRaw} from "./src/projection/mercator";
-export {default as geoNaturalEarth1, naturalEarth1Raw as geoNaturalEarthRaw1} from "./src/projection/naturalEarth1";
+export {default as geoNaturalEarth1, naturalEarth1Raw as geoNaturalEarth1Raw} from "./src/projection/naturalEarth1";
 export {default as geoOrthographic, orthographicRaw as geoOrthographicRaw} from "./src/projection/orthographic";
 export {default as geoStereographic, stereographicRaw as geoStereographicRaw} from "./src/projection/stereographic";
 export {default as geoTransverseMercator, transverseMercatorRaw as geoTransverseMercatorRaw} from "./src/projection/transverseMercator";
