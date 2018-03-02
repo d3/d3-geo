@@ -46,6 +46,8 @@ export default function(polygon, point) {
         var intersection = cartesianCross(normal, arc);
         cartesianNormalizeInPlace(intersection);
         var phiArc = (antimeridian ^ delta >= 0 ? -1 : 1) * asin(intersection[2]);
+        var pole = sin(phi);
+        if (pole == -1 || pole == 1) phi += pole * epsilon;
         if (phi > phiArc || phi === phiArc && (arc[0] || arc[1])) {
           winding += antimeridian ^ delta >= 0 ? 1 : -1;
         }

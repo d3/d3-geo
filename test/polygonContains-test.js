@@ -34,6 +34,7 @@ rollup.rollup({input: "src/polygonContains.js"})
     var polygon = [[[-60, -80], [60, -80], [180, -80], [-60, -80]]];
     test.equal(polygonContains(polygon, [0, 0]), 0);
     test.equal(polygonContains(polygon, [0, -85]), 1);
+    test.equal(polygonContains(polygon, [0, -90]), 1);
     test.end();
   });
 
@@ -41,6 +42,28 @@ rollup.rollup({input: "src/polygonContains.js"})
     var polygon = [[[60, 80], [-60, 80], [-180, 80], [60, 80]]];
     test.equal(polygonContains(polygon, [0, 0]), 0);
     test.equal(polygonContains(polygon, [0, 85]), 1);
+    test.equal(polygonContains(polygon, [0, 90]), 1);
+    test.equal(polygonContains(polygon, [-100, 90]), 1);
+    test.equal(polygonContains(polygon, [0, -90]), 0);
+    test.end();
+  });
+
+  tape("geoPolygonContains(touchingPole, Pole) returns true (issue #105)", function(test) {
+    var polygon = [[[0, -30], [120, -30], [0, -90], [0, -30]]];
+    test.equal(polygonContains(polygon, [0, -90]), 0);
+    test.equal(polygonContains(polygon, [-60, -90]), 0);
+    test.equal(polygonContains(polygon, [60, -90]), 0);
+    polygon = [[[0, 30], [-120, 30], [0, 90], [0, 30]]];
+    test.equal(polygonContains(polygon, [0, 90]), 0);
+    test.equal(polygonContains(polygon, [-60, 90]), 0);
+    test.equal(polygonContains(polygon, [60, 90]), 0);
+    test.end();
+  });
+
+  tape("geoPolygonContains(southHemispherePoly) returns the expected value", function(test) {
+    var polygon = [[[0, 0], [10, -40], [-10, -40], [0, 0]]];
+    test.equal(polygonContains(polygon, [0,-40.2]), 1);
+    test.equal(polygonContains(polygon, [0,-40.5]), 0);
     test.end();
   });
 
