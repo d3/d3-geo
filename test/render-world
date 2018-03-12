@@ -23,8 +23,15 @@ var world = require("./data/world-50m.json"),
 //   case "littrow": outline = graticule.extent([[-90, -60], [90, 60]]).outline(); break;
 // }
 
+var projection;
+
+if (projectionSymbol == 'geoAngleorient30')
+  projection = d3_geo.geoEquirectangular().clipAngle(90).angle(-30).precision(0.1).fitExtent([[0,0],[width,height]], {type:"Sphere"});
+else
+  projection = d3_geo[projectionSymbol]().precision(0.1);
+
 var path = d3_geo.geoPath()
-    .projection(d3_geo[projectionSymbol]().precision(0.1))
+    .projection(projection)
     .context(context);
 
 context.fillStyle = "#fff";
