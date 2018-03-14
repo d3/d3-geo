@@ -39,7 +39,7 @@ function scaleTranslateRotate(k, dx, dy, alpha) {
   var a = cos(alpha), b = -sin(alpha);
   function transform(x, y) {
     return [dx + k * (x * a + y * b), dy + k * (x * b - y * a)];
-  };
+  }
   transform.invert = function(x, y) {
     return x = (x - dx) / k, y = (dy - y) / k, [a * x - b * y, b * x + a * y];
   };
