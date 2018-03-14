@@ -127,7 +127,7 @@ export function projectionMutator(projectAt) {
     // | A B C | | x | = | x / k - tx / k + cx  |
     // | D E F | | y |   | y / -k + ty / k + cy |
     // | 0 0 1 | | 1 |   | 1                    |
-    A = 1 / k, B = 0, C = -tx / k - cx;
+    A = 1 / k, B = 0, C = -tx / k + cx;
     D = 0, E = -A, F = ty / k + cy;
     return reset();
   }
