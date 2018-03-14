@@ -31,9 +31,11 @@ export default function projection(project) {
 export function projectionMutator(projectAt) {
   var project,
       k = 150, // scale
-      x = 480, y = 250, // translate
-      dx, dy, lambda = 0, phi = 0, // center
-      deltaLambda = 0, deltaPhi = 0, deltaGamma = 0, rotate, projectRotate, // rotate
+      tx = 480, ty = 250, // translate
+      lambda = 0, phi = 0, // center
+      deltaLambda = 0, deltaPhi = 0, deltaGamma = 0, rotate, projectRotate, // pre-rotate
+      a, b, c, d, e, f, // post-projection transform
+      A, B, C, D, E, F, // inverse post-projection transform
       theta = null, preclip = clipAntimeridian, // clip angle
       x0 = null, y0, x1, y1, postclip = identity, // clip extent
       delta2 = 0.5, projectResample = resample(projectTransform, delta2), // precision
@@ -42,16 +44,20 @@ export function projectionMutator(projectAt) {
 
   function projection(point) {
     point = projectRotate(point[0] * radians, point[1] * radians);
-    return [point[0] * k + dx, dy - point[1] * k];
+    var x = point[0], y = point[1];
+    return [a * x + b * y + c, d * x + e * y + f];
   }
 
   function invert(point) {
-    point = projectRotate.invert((point[0] - dx) / k, (dy - point[1]) / k);
+    var x = point[0], y = point[1];
+    point = projectRotate.invert(A * x + B * y + C, D * x + E * y + F);
     return point && [point[0] * degrees, point[1] * degrees];
   }
 
   function projectTransform(x, y) {
-    return x = project(x, y), [x[0] * k + dx, dy - x[1] * k];
+    var point = project(x, y);
+    x = point[0], y = point[1];
+    return [a * x + b * y + c, d * x + e * y + f];
   }
 
   projection.stream = function(stream) {
@@ -79,7 +85,7 @@ export function projectionMutator(projectAt) {
   };
 
   projection.translate = function(_) {
-    return arguments.length ? (x = +_[0], y = +_[1], recenter()) : [x, y];
+    return arguments.length ? (tx = +_[0], ty = +_[1], recenter()) : [tx, ty];
   };
 
   projection.center = function(_) {
@@ -112,9 +118,17 @@ export function projectionMutator(projectAt) {
 
   function recenter() {
     projectRotate = compose(rotate = rotateRadians(deltaLambda, deltaPhi, deltaGamma), project);
-    var center = project(lambda, phi);
-    dx = x - center[0] * k;
-    dy = y + center[1] * k;
+    var center = project(lambda, phi), cx = center[0], cy = center[1];
+    // | a b c | | x | = | x * k + tx - cx * k  |
+    // | d e f | | y |   | y * -k + ty + cy * k |
+    // | 0 0 1 | | 1 |   | 1                    |
+    a = k, b = 0, c = tx - cx * k;
+    d = 0, e = -k, f = ty + cy * k;
+    // | A B C | | x | = | x / k - tx / k + cx  |
+    // | D E F | | y |   | y / -k + ty / k + cy |
+    // | 0 0 1 | | 1 |   | 1                    |
+    A = 1 / k, B = 0, C = -tx / k + cx;
+    D = 0, E = -A, F = ty / k + cy;
     return reset();
   }
 

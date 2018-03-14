@@ -2,6 +2,8 @@ import {atan, exp, halfPi, log, tan} from "../math";
 import {mercatorProjection} from "./mercator";
 
 export function transverseMercatorRaw(lambda, phi) {
+  if (halfPi + phi <=0) return [-1e17, -lambda];
+  if (phi >= halfPi) return [1e17, -lambda];
   return [log(tan((halfPi + phi) / 2)), -lambda];
 }
 

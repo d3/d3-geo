@@ -3,6 +3,8 @@ import rotation from "../rotation";
 import projection from "./index";
 
 export function mercatorRaw(lambda, phi) {
+  if (halfPi + phi <= 0) return [lambda, -1e17];
+  if (phi >= halfPi) return [lambda, 1e17];
   return [lambda, log(tan((halfPi + phi) / 2))];
 }
 
