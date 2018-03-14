@@ -225,6 +225,10 @@ A convenience method for [*projection*.fitSize](#projection_fitSize) where the h
 
 A convenience method for [*projection*.fitSize](#projection_fitSize) where the width is automatically chosen from the aspect ratio of *object* and the given contraint on *height*.
 
+<a href="#projection_angle" name="projection_angle">#</a> <i>projection</i>.<b>angle</b>([<i>angle</i>]) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/index.js#L109 "Source")
+
+If *angle* is specified, sets the projection’s angle to the specified *angle* in degrees and returns the projection. This global orientation of the map —usually, the East direction at its *center*— is applied after projecting. If *angle* is not specified, returns the projection’s current angle (between -180° and 180°).
+
 #### Azimuthal Projections
 
 Azimuthal projections project the sphere directly onto a plane.

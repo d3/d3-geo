@@ -3,7 +3,7 @@ import clipCircle from "../clip/circle";
 import clipRectangle from "../clip/rectangle";
 import compose from "../compose";
 import identity from "../identity";
-import {degrees, radians, sqrt} from "../math";
+import {cos, degrees, radians, sin, sqrt} from "../math";
 import {rotateRadians} from "../rotation";
 import {transformer} from "../transform";
 import {fitExtent, fitSize, fitWidth, fitHeight} from "./fit";
@@ -24,6 +24,28 @@ function transformRotate(rotate) {
   });
 }
 
+function scaleTranslate(k, dx, dy) {
+  function transform(x, y) {
+    return [dx + k * x, dy - k * y];
+  }
+  transform.invert = function(x, y) {
+    return [(x - dx) / k, (dy - y) / k];
+  };
+  return transform;
+}
+
+// TODO Optimize.
+function scaleTranslateRotate(k, dx, dy, alpha) {
+  var a = cos(alpha), b = -sin(alpha);
+  function transform(x, y) {
+    return [dx + k * (x * a + y * b), dy + k * (x * b - y * a)];
+  }
+  transform.invert = function(x, y) {
+    return x = (x - dx) / k, y = (dy - y) / k, [a * x - b * y, b * x + a * y];
+  };
+  return transform;
+}
+
 export default function projection(project) {
   return projectionMutator(function() { return project; })();
 }
@@ -32,26 +54,25 @@ export function projectionMutator(projectAt) {
   var project,
       k = 150, // scale
       x = 480, y = 250, // translate
-      dx, dy, lambda = 0, phi = 0, // center
-      deltaLambda = 0, deltaPhi = 0, deltaGamma = 0, rotate, projectRotate, // rotate
-      theta = null, preclip = clipAntimeridian, // clip angle
-      x0 = null, y0, x1, y1, postclip = identity, // clip extent
-      delta2 = 0.5, projectResample = resample(projectTransform, delta2), // precision
+      lambda = 0, phi = 0, // center
+      deltaLambda = 0, deltaPhi = 0, deltaGamma = 0, rotate, // pre-rotate
+      alpha = 0, // post-rotate
+      theta = null, preclip = clipAntimeridian, // pre-clip angle
+      x0 = null, y0, x1, y1, postclip = identity, // post-clip extent
+      delta2 = 0.5,
+      projectResample, // precision
+      projectTransform,
+      projectRotateTransform,
       cache,
       cacheStream;
 
   function projection(point) {
-    point = projectRotate(point[0] * radians, point[1] * radians);
-    return [point[0] * k + dx, dy - point[1] * k];
+    return projectRotateTransform(point[0] * radians, point[1] * radians);
   }
 
   function invert(point) {
-    point = projectRotate.invert((point[0] - dx) / k, (dy - point[1]) / k);
+    point = projectRotateTransform.invert(point[0], point[1]);
     return point && [point[0] * degrees, point[1] * degrees];
-  }
-
-  function projectTransform(x, y) {
-    return x = project(x, y), [x[0] * k + dx, dy - x[1] * k];
   }
 
   projection.stream = function(stream) {
@@ -90,8 +111,12 @@ export function projectionMutator(projectAt) {
     return arguments.length ? (deltaLambda = _[0] % 360 * radians, deltaPhi = _[1] % 360 * radians, deltaGamma = _.length > 2 ? _[2] % 360 * radians : 0, recenter()) : [deltaLambda * degrees, deltaPhi * degrees, deltaGamma * degrees];
   };
 
+  projection.angle = function(_) {
+    return arguments.length ? (alpha = _ % 360 * radians, recenter()) : alpha * degrees;
+  };
+
   projection.precision = function(_) {
-    return arguments.length ? (projectResample = resample(projectTransform, delta2 = _ * _), reset()) : sqrt(delta2);
+    return arguments.length ? (delta2 = _ * _, reset()) : sqrt(delta2);
   };
 
   projection.fitExtent = function(extent, object) {
@@ -111,15 +136,17 @@ export function projectionMutator(projectAt) {
   };
 
   function recenter() {
-    projectRotate = compose(rotate = rotateRadians(deltaLambda, deltaPhi, deltaGamma), project);
-    var center = project(lambda, phi);
-    dx = x - center[0] * k;
-    dy = y + center[1] * k;
+    var center = scaleTranslateRotate(k, 0, 0, alpha).apply(null, project(lambda, phi)),
+        transform = (alpha ? scaleTranslateRotate : scaleTranslate)(k, x - center[0], y - center[1], alpha);
+    rotate = rotateRadians(deltaLambda, deltaPhi, deltaGamma);
+    projectTransform = compose(project, transform);
+    projectRotateTransform = compose(rotate, projectTransform);
     return reset();
   }
 
   function reset() {
     cache = cacheStream = null;
+    projectResample = resample(projectTransform, delta2);
     return projection;
   }
 

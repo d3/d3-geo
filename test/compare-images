@@ -10,6 +10,7 @@ for i in \
     gnomonic \
     mercator \
     naturalEarth1 \
+    angleorient30 \
     orthographic \
     stereographic \
     transverseMercator; do
