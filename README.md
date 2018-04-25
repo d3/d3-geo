@@ -268,6 +268,15 @@ The orthographic projection.
 
 The stereographic projection.
 
+<a href="#geoAzimuthalRaw" name="geoAzimuthalRaw">#</a> d3.<b>geoAzimuthalRaw</b>(<i>scale</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/azimuthal.js "Source")
+
+Constructs an azimuthal projection where <i>scale</i> determines the radius of the circle at angular distance `a`, with the formula `r = sin(a) * scale(cos(a))`.
+
+<a href="#geoAzimuthalInvert" name="geoAzimuthalInvert">#</a> d3.<b>geoAzimuthalInvert</b>(<i>angle</i>) [<>](https://github.com/d3/d3-geo/blob/master/src/projection/azimuthal.js "Source")
+
+Constructs the inverse azimuthal projection where <i>angle</i> determines the angular distance `a` of a point located at planar distance `r`, with the formula `a = angle(r)`.
+
+
 #### Composite Projections
 
 Composite consist of several projections that are composed into a single display. The constituent projections have fixed clip, center and rotation, and thus composite projections do not support [*projection*.center](#projection_center), [*projection*.rotate](#projection_rotate), [*projection*.clipAngle](#projection_clipAngle), or [*projection*.clipExtent](#projection_clipExtent).
