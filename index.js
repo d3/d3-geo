@@ -14,6 +14,7 @@ export {default as geoLength} from "./src/length";
 export {default as geoPath} from "./src/path/index";
 export {default as geoAlbers} from "./src/projection/albers";
 export {default as geoAlbersUsa} from "./src/projection/albersUsa";
+export {azimuthalRaw as geoAzimuthalRaw, azimuthalInvert as geoAzimuthalInvert} from "./src/projection/azimuthal";
 export {default as geoAzimuthalEqualArea, azimuthalEqualAreaRaw as geoAzimuthalEqualAreaRaw} from "./src/projection/azimuthalEqualArea";
 export {default as geoAzimuthalEquidistant, azimuthalEquidistantRaw as geoAzimuthalEquidistantRaw} from "./src/projection/azimuthalEquidistant";
 export {default as geoConicConformal, conicConformalRaw as geoConicConformalRaw} from "./src/projection/conicConformal";
