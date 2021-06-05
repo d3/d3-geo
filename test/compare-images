@@ -15,7 +15,7 @@ for i in \
     orthographic \
     stereographic \
     transverseMercator; do
-  node test/render-world.mjs $i > test/output/$i.png \
+  node test/render-world.js $i > test/output/$i.png \
       && [ "$(gm compare -metric rmse img/$i.png test/output/$i.png 2>&1)" = "Image Difference (RootMeanSquaredError):
            Normalized    Absolute
           ============  ==========
@@ -32,7 +32,7 @@ done
 for i in \
     albers \
     albersUsa; do
-  node test/render-us.mjs $i > test/output/$i.png \
+  node test/render-us.js $i > test/output/$i.png \
       && [ "$(gm compare -metric rmse img/$i.png test/output/$i.png 2>&1)" = "Image Difference (RootMeanSquaredError):
            Normalized    Absolute
           ============  ==========

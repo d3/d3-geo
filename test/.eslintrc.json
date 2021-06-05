@@ -10,6 +10,7 @@
     "no-prototype-builtins": 0
   },
   "env": {
-    "mocha": true
+    "mocha": true,
+    "node": true
   }
 }
