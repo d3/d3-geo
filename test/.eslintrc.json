@@ -4,11 +4,6 @@
     "sourceType": "module",
     "ecmaVersion": 8
   },
-  "rules": {
-    "no-cond-assign": 0,
-    "no-constant-condition": 0,
-    "no-prototype-builtins": 0
-  },
   "env": {
     "mocha": true,
     "node": true
