@@ -26,22 +26,24 @@ If you use npm, `npm install d3-geo`. You can also download the [latest release 
 
 ```html
 <script type="module">
+
 import {geoEqualEarth, geoPath} from "https://cdn.skypack.dev/d3-geo@3";
 
-const projection = geoEqualEarth(),
-      path = geoPath(projection);
+const projection = geoEqualEarth();
+const path = geoPath(projection);
+
 </script>
 ```
 
 For legacy environments, you can load d3-geo’s UMD bundle from an npm-based CDN such as jsDelivr; a `d3` global is exported:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/array@3"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-array@3"></script>
 <script src="https://cdn.jsdelivr.net/npm/d3-geo@3"></script>
 <script>
 
-const projection = d3.geoEqualEarth(),
-      path = d3.geoPath(projection);
+const projection = d3.geoEqualEarth();
+const path = d3.geoPath(projection);
 
 </script>
 ```
