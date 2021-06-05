@@ -1,12 +1,12 @@
-import * as d3 from "../../src/index.js";
+import {geoEquirectangular, geoPath} from "../../src/index.js";
 import {assertPathEqual} from "../asserts.js";
 
-const equirectangular = d3.geoEquirectangular()
+const equirectangular = geoEquirectangular()
     .scale(900 / Math.PI)
     .precision(0);
 
 function testPath(projection, object) {
-  return d3.geoPath()
+  return geoPath()
       .projection(projection) (object);
 }
 
@@ -18,7 +18,7 @@ it("geoPath(Point) renders a point", () => {
 });
 
 it("geoPath.pointRadius(radius)(Point) renders a point of the given radius", () => {
-  assertPathEqual(d3.geoPath()
+  assertPathEqual(geoPath()
       .projection(equirectangular)
       .pointRadius(10)({
     type: "Point",
@@ -81,7 +81,7 @@ it("geoPath(FeatureCollection) renders a feature collection", () => {
 });
 
 it("geoPath(LineString) then geoPath(Point) does not treat the point as part of a line", () => {
-  const path = d3.geoPath().projection(equirectangular);
+  const path = geoPath().projection(equirectangular);
   assertPathEqual(path({
     type: "LineString",
     coordinates: [[-63, 18], [-62, 18], [-62, 17]]

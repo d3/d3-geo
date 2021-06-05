@@ -1,23 +1,23 @@
 #!/usr/bin/env node
 
 import {readFileSync} from "fs";
-import * as topojson from "topojson-client";
+import {feature} from "topojson-client";
 import {Canvas} from "canvas";
 import * as d3 from "../src/index.js";
 
-const width = 960,
-    height = 500,
-    projectionName = process.argv[2],
-    projectionSymbol = "geo" + projectionName[0].toUpperCase() + projectionName.slice(1);
+const width = 960;
+const height = 500;
+const projectionName = process.argv[2];
+const projectionSymbol = "geo" + projectionName[0].toUpperCase() + projectionName.slice(1);
 
 if (!/^[a-z0-9]+$/i.test(projectionName)) throw new Error;
 
-const canvas = new Canvas(width, height),
-    context = canvas.getContext("2d");
+const canvas = new Canvas(width, height);
+const context = canvas.getContext("2d");
 
-const world = JSON.parse(readFileSync("node_modules/world-atlas/world/50m.json")),
-    graticule = d3.geoGraticule(),
-    outline = {type: "Sphere"};
+const world = JSON.parse(readFileSync("node_modules/world-atlas/world/50m.json"));
+const graticule = d3.geoGraticule();
+const outline = {type: "Sphere"};
 
 // switch (projectionName) {
 //   case "littrow": outline = graticule.extent([[-90, -60], [90, 60]]).outline(); break;
@@ -45,7 +45,7 @@ context.save();
 // }
 
 context.beginPath();
-path(topojson.feature(world, world.objects.land));
+path(feature(world, world.objects.land));
 context.fillStyle = "#000";
 context.fill();
 

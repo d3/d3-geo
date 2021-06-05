@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import * as d3 from "../src/index.js";
 import {format} from "d3-format";
+import * as d3 from "../src/index.js";
 
 const width = 960 - 1;
 const height = 500 - 1;

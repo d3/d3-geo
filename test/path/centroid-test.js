@@ -1,13 +1,13 @@
 import assert from "assert";
-import * as d3 from "../../src/index.js";
+import {geoEquirectangular, geoPath} from "../../src/index.js";
 import {assertInDelta} from "../asserts.js";
 
-const equirectangular = d3.geoEquirectangular()
+const equirectangular = geoEquirectangular()
     .scale(900 / Math.PI)
     .precision(0);
 
 function testCentroid(projection, object) {
-  return d3.geoPath()
+  return geoPath()
       .projection(projection)
       .centroid(object);
 }

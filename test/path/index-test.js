@@ -1,15 +1,15 @@
 import assert from "assert";
-import * as d3 from "../../src/index.js";
+import {geoAlbers, geoEquirectangular, geoPath} from "../../src/index.js";
 import {testContext} from "./test-context.js";
 
-const equirectangular = d3.geoEquirectangular()
+const equirectangular = geoEquirectangular()
     .scale(900 / Math.PI)
     .precision(0);
 
 function testPath(projection, object) {
   const context = testContext();
 
-  d3.geoPath()
+  geoPath()
       .projection(projection)
       .context(context) (object);
 
@@ -17,22 +17,22 @@ function testPath(projection, object) {
 }
 
 it("geoPath.projection() defaults to null", () => {
-  const path = d3.geoPath();
+  const path = geoPath();
   assert.strictEqual(path.projection(), null);
 });
 
 it("geoPath.context() defaults to null", () => {
-  const path = d3.geoPath();
+  const path = geoPath();
   assert.strictEqual(path.context(), null);
 });
 
-it("d3.geoPath(projection) sets the initial projection", () => {
-  const projection = d3.geoAlbers(), path = d3.geoPath(projection);
+it("geoPath(projection) sets the initial projection", () => {
+  const projection = geoAlbers(), path = geoPath(projection);
   assert.strictEqual(path.projection(), projection);
 });
 
-it("d3.geoPath(projection, context) sets the initial projection and context", () => {
-  const context = testContext(), projection = d3.geoAlbers(), path = d3.geoPath(projection, context);
+it("geoPath(projection, context) sets the initial projection and context", () => {
+  const context = testContext(), projection = geoAlbers(), path = geoPath(projection, context);
   assert.strictEqual(path.projection(), projection);
   assert.strictEqual(path.context(), context);
 });
@@ -171,20 +171,20 @@ it("geoPath.projection(null)(…) does not transform coordinates", () => {
 });
 
 it("geoPath.context(null)(null) returns null", () => {
-  const path = d3.geoPath();
+  const path = geoPath();
   assert.strictEqual(path(), null);
   assert.strictEqual(path(null), null);
   assert.strictEqual(path(undefined), null);
 });
 
 it("geoPath.context(null)(Unknown) returns null", () => {
-  const path = d3.geoPath();
+  const path = geoPath();
   assert.strictEqual(path({type: "Unknown"}), null);
   assert.strictEqual(path({type: "__proto__"}), null);
 });
 
 it("geoPath(LineString) then geoPath(Point) does not treat the point as part of a line", () => {
-  const context = testContext(), path = d3.geoPath().projection(equirectangular).context(context);
+  const context = testContext(), path = geoPath().projection(equirectangular).context(context);
   path({
     type: "LineString",
     coordinates: [[-63, 18], [-62, 18], [-62, 17]]

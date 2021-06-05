@@ -1,10 +1,10 @@
 import assert from "assert";
-import * as d3 from "../../src/index.js";
-import {assertProjectionEqual} from "./asserts.js";
+import {geoGnomonic, geoIdentity} from "../../src/index.js";
 import {assertInDelta} from "../asserts.js";
+import {assertProjectionEqual} from "./asserts.js";
 
 it("projection.angle(…) defaults to zero", () => {
-  const projection = d3.geoGnomonic().scale(1).translate([0, 0]);
+  const projection = geoGnomonic().scale(1).translate([0, 0]);
   assert.strictEqual(projection.angle(), 0);
   assertProjectionEqual(projection, [0, 0], [0, 0]);
   assertProjectionEqual(projection, [10, 0], [0.17632698070846498, 0]);
@@ -18,7 +18,7 @@ it("projection.angle(…) defaults to zero", () => {
 });
 
 it("projection.angle(…) rotates by the specified degrees after projecting", () => {
-  const projection = d3.geoGnomonic().scale(1).translate([0, 0]).angle(30);
+  const projection = geoGnomonic().scale(1).translate([0, 0]).angle(30);
   assertInDelta(projection.angle(), 30);
   assertProjectionEqual(projection, [0, 0], [0, 0]);
   assertProjectionEqual(projection, [10, 0], [0.1527036446661393, -0.08816349035423247]);
@@ -32,7 +32,7 @@ it("projection.angle(…) rotates by the specified degrees after projecting", ()
 });
 
 it("projection.angle(…) rotates by the specified degrees after projecting", () => {
-  const projection = d3.geoGnomonic().scale(1).translate([0, 0]).angle(-30);
+  const projection = geoGnomonic().scale(1).translate([0, 0]).angle(-30);
   assertInDelta(projection.angle(), -30);
   assertProjectionEqual(projection, [0, 0], [0, 0]);
   assertProjectionEqual(projection, [10, 0], [0.1527036446661393, 0.08816349035423247]);
@@ -46,12 +46,12 @@ it("projection.angle(…) rotates by the specified degrees after projecting", ()
 });
 
 it("projection.angle(…) wraps around 360°", () => {
-  const projection = d3.geoGnomonic().scale(1).translate([0, 0]).angle(360);
+  const projection = geoGnomonic().scale(1).translate([0, 0]).angle(360);
   assert.strictEqual(projection.angle(), 0);
 });
 
 it("identity.angle(…) rotates geoIdentity", () => {
-  const projection = d3.geoIdentity().angle(-45), SQRT2_2 = Math.sqrt(2) / 2;
+  const projection = geoIdentity().angle(-45), SQRT2_2 = Math.sqrt(2) / 2;
   assertInDelta(projection.angle(), -45);
   assertProjectionEqual(projection, [0, 0], [0, 0]);
   assertProjectionEqual(projection, [1, 0], [SQRT2_2, SQRT2_2]);

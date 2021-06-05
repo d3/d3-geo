@@ -1,10 +1,10 @@
-import * as d3 from "../../src/index.js";
+import {geoEquirectangular} from "../../src/index.js";
 import {assertProjectionEqual} from "./asserts.js";
 
 const pi = Math.PI;
 
 it("equirectangular(point) returns the expected result", () => {
-  const equirectangular = d3.geoEquirectangular().translate([0, 0]).scale(1);
+  const equirectangular = geoEquirectangular().translate([0, 0]).scale(1);
   assertProjectionEqual(equirectangular, [   0,   0], [ 0,  0]);
   assertProjectionEqual(equirectangular, [-180,   0], [-pi,  0]);
   assertProjectionEqual(equirectangular, [ 180,   0], [ pi,  0]);
@@ -17,7 +17,7 @@ it("equirectangular(point) returns the expected result", () => {
 });
 
 it("equirectangular.rotate([30, 0])(point) returns the expected result", () => {
-  const equirectangular = d3.geoEquirectangular().rotate([30, 0]).translate([0, 0]).scale(1);
+  const equirectangular = geoEquirectangular().rotate([30, 0]).translate([0, 0]).scale(1);
   assertProjectionEqual(equirectangular, [   0,   0], [ pi / 6,  0]);
   assertProjectionEqual(equirectangular, [-180,   0], [-5 / 6 * pi,  0]);
   assertProjectionEqual(equirectangular, [ 180,   0], [-5 / 6 * pi,  0]);
@@ -30,7 +30,7 @@ it("equirectangular.rotate([30, 0])(point) returns the expected result", () => {
 });
 
 it("equirectangular.rotate([30, 30])(point) returns the expected result", () => {
-  const equirectangular = d3.geoEquirectangular().rotate([30, 30]).translate([0, 0]).scale(1);
+  const equirectangular = geoEquirectangular().rotate([30, 30]).translate([0, 0]).scale(1);
   assertProjectionEqual(equirectangular, [   0,   0], [ 0.5880026035475674, -0.44783239692893245]);
   assertProjectionEqual(equirectangular, [-180,   0], [-2.5535900500422257,  0.44783239692893245]);
   assertProjectionEqual(equirectangular, [ 180,   0], [-2.5535900500422257,  0.44783239692893245]);
@@ -43,7 +43,7 @@ it("equirectangular.rotate([30, 30])(point) returns the expected result", () => 
 });
 
 it("equirectangular.rotate([0, 0, 30])(point) returns the expected result", () => {
-  const equirectangular = d3.geoEquirectangular().rotate([0, 0, 30]).translate([0, 0]).scale(1);
+  const equirectangular = geoEquirectangular().rotate([0, 0, 30]).translate([0, 0]).scale(1);
   assertProjectionEqual(equirectangular, [   0,   0], [ 0, 0]);
   assertProjectionEqual(equirectangular, [-180,   0], [-pi, 0]);
   assertProjectionEqual(equirectangular, [ 180,   0], [ pi, 0]);
@@ -56,7 +56,7 @@ it("equirectangular.rotate([0, 0, 30])(point) returns the expected result", () =
 });
 
 it("equirectangular.rotate([30, 30, 30])(point) returns the expected result", () => {
-  const equirectangular = d3.geoEquirectangular().rotate([30, 30, 30]).translate([0, 0]).scale(1);
+  const equirectangular = geoEquirectangular().rotate([30, 30, 30]).translate([0, 0]).scale(1);
   assertProjectionEqual(equirectangular, [   0,   0], [ 0.2810349015028135, -0.67513153293703170]);
   assertProjectionEqual(equirectangular, [-180,   0], [-2.8605577520869800,  0.67513153293703170]);
   assertProjectionEqual(equirectangular, [ 180,   0], [-2.8605577520869800,  0.67513153293703170]);

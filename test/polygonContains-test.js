@@ -1,5 +1,5 @@
 import assert from "assert";
-import * as d3 from "../src/index.js";
+import {geoCircle} from "../src/index.js";
 import contains from "../src/polygonContains.js";
 
 function polygonContains(polygon, point) {
@@ -17,13 +17,13 @@ it("geoPolygonContains(simple, point) returns the expected value", () => {
 });
 
 it("geoPolygonContains(smallCircle, point) returns the expected value", () => {
-  const polygon = d3.geoCircle().radius(60)().coordinates;
+  const polygon = geoCircle().radius(60)().coordinates;
   assert.strictEqual(polygonContains(polygon, [-180, 0]), 0);
   assert.strictEqual(polygonContains(polygon, [1, 1]), 1);
 });
 
 it("geoPolygonContains wraps longitudes", () => {
-  const polygon = d3.geoCircle().center([300, 0])().coordinates;
+  const polygon = geoCircle().center([300, 0])().coordinates;
   assert.strictEqual(polygonContains(polygon, [300, 0]), 1);
   assert.strictEqual(polygonContains(polygon, [-60, 0]), 1);
   assert.strictEqual(polygonContains(polygon, [-420, 0]), 1);
@@ -81,7 +81,7 @@ it("geoPolygonContains(largeNearNorthPole, point) returns the expected value", (
 });
 
 it("geoPolygonContains(largeCircle, point) returns the expected value", () => {
-  const polygon = d3.geoCircle().radius(120)().coordinates;
+  const polygon = geoCircle().radius(120)().coordinates;
   assert.strictEqual(polygonContains(polygon, [-180, 0]), 0);
   assert.strictEqual(polygonContains(polygon, [-90, 0]), 1);
 });
@@ -93,7 +93,7 @@ it("geoPolygonContains(largeNarrowStripHole, point) returns the expected value",
 });
 
 it("geoPolygonContains(largeNarrowEquatorialHole, point) returns the expected value", () => {
-  const circle = d3.geoCircle().center([0, -90]),
+  const circle = geoCircle().center([0, -90]),
       ring0 = circle.radius(90 - 0.01)().coordinates[0],
       ring1 = circle.radius(90 + 0.01)().coordinates[0].reverse(),
       polygon = [ring0, ring1];
@@ -102,7 +102,7 @@ it("geoPolygonContains(largeNarrowEquatorialHole, point) returns the expected va
 });
 
 it("geoPolygonContains(largeNarrowEquatorialStrip, point) returns the expected value", () => {
-  const circle = d3.geoCircle().center([0, -90]),
+  const circle = geoCircle().center([0, -90]),
       ring0 = circle.radius(90 + 0.01)().coordinates[0],
       ring1 = circle.radius(90 - 0.01)().coordinates[0].reverse(),
       polygon = [ring0, ring1];
@@ -181,7 +181,7 @@ it("geoPolygonContains(selfIntersectingNearNorthPole, point) returns the expecte
 });
 
 it("geoPolygonContains(hemisphereTouchingTheSouthPole, point) returns the expected value", () => {
-  const polygon = d3.geoCircle().radius(90)().coordinates;
+  const polygon = geoCircle().radius(90)().coordinates;
   assert.strictEqual(polygonContains(polygon, [0, 0]), 1);
 });
 

@@ -1,9 +1,9 @@
-import * as d3 from "../../src/index.js";
+import {geoMercator, geoPath} from "../../src/index.js";
 import {assertPathEqual} from "../asserts.js";
 
 it("a rotation of a degenerate polygon should not break", () => {
-  const projection = d3.geoMercator().rotate([-134.300, 25.776]).scale(750).translate([0, 0]);
-  assertPathEqual(d3.geoPath(projection)({
+  const projection = geoMercator().rotate([-134.300, 25.776]).scale(750).translate([0, 0]);
+  assertPathEqual(geoPath(projection)({
     "type": "Polygon",
     "coordinates": [
       [

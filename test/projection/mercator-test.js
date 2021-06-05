@@ -1,39 +1,39 @@
 import assert from "assert";
-import * as d3 from "../../src/index.js";
+import {geoMercator, geoPath} from "../../src/index.js";
 import {assertPathEqual} from "../asserts.js";
 
 it("mercator.clipExtent(null) sets the default automatic clip extent", () => {
-  const projection = d3.geoMercator().translate([0, 0]).scale(1).clipExtent(null).precision(0);
-  assertPathEqual(d3.geoPath(projection)({type: "Sphere"}), "M3.141593,-3.141593L3.141593,0L3.141593,3.141593L3.141593,3.141593L-3.141593,3.141593L-3.141593,3.141593L-3.141593,0L-3.141593,-3.141593L-3.141593,-3.141593L3.141593,-3.141593Z");
+  const projection = geoMercator().translate([0, 0]).scale(1).clipExtent(null).precision(0);
+  assertPathEqual(geoPath(projection)({type: "Sphere"}), "M3.141593,-3.141593L3.141593,0L3.141593,3.141593L3.141593,3.141593L-3.141593,3.141593L-3.141593,3.141593L-3.141593,0L-3.141593,-3.141593L-3.141593,-3.141593L3.141593,-3.141593Z");
   assert.strictEqual(projection.clipExtent(), null);
 });
 
 it("mercator.center(center) sets the correct automatic clip extent", () => {
-  const projection = d3.geoMercator().translate([0, 0]).scale(1).center([10, 10]).precision(0);
-  assertPathEqual(d3.geoPath(projection)({type: "Sphere"}), "M2.967060,-2.966167L2.967060,0.175426L2.967060,3.317018L2.967060,3.317018L-3.316126,3.317018L-3.316126,3.317019L-3.316126,0.175426L-3.316126,-2.966167L-3.316126,-2.966167L2.967060,-2.966167Z");
+  const projection = geoMercator().translate([0, 0]).scale(1).center([10, 10]).precision(0);
+  assertPathEqual(geoPath(projection)({type: "Sphere"}), "M2.967060,-2.966167L2.967060,0.175426L2.967060,3.317018L2.967060,3.317018L-3.316126,3.317018L-3.316126,3.317019L-3.316126,0.175426L-3.316126,-2.966167L-3.316126,-2.966167L2.967060,-2.966167Z");
   assert.strictEqual(projection.clipExtent(), null);
 });
 
 it("mercator.clipExtent(extent) intersects the specified clip extent with the automatic clip extent", () => {
-  const projection = d3.geoMercator().translate([0, 0]).scale(1).clipExtent([[-10, -10], [10, 10]]).precision(0);
-  assertPathEqual(d3.geoPath(projection)({type: "Sphere"}), "M3.141593,-10L3.141593,0L3.141593,10L3.141593,10L-3.141593,10L-3.141593,10L-3.141593,0L-3.141593,-10L-3.141593,-10L3.141593,-10Z");
+  const projection = geoMercator().translate([0, 0]).scale(1).clipExtent([[-10, -10], [10, 10]]).precision(0);
+  assertPathEqual(geoPath(projection)({type: "Sphere"}), "M3.141593,-10L3.141593,0L3.141593,10L3.141593,10L-3.141593,10L-3.141593,10L-3.141593,0L-3.141593,-10L-3.141593,-10L3.141593,-10Z");
   assert.deepStrictEqual(projection.clipExtent(), [[-10, -10], [10, 10]]);
 });
 
 it("mercator.clipExtent(extent).scale(scale) updates the intersected clip extent", () => {
-  const projection = d3.geoMercator().translate([0, 0]).clipExtent([[-10, -10], [10, 10]]).scale(1).precision(0);
-  assertPathEqual(d3.geoPath(projection)({type: "Sphere"}), "M3.141593,-10L3.141593,0L3.141593,10L3.141593,10L-3.141593,10L-3.141593,10L-3.141593,0L-3.141593,-10L-3.141593,-10L3.141593,-10Z");
+  const projection = geoMercator().translate([0, 0]).clipExtent([[-10, -10], [10, 10]]).scale(1).precision(0);
+  assertPathEqual(geoPath(projection)({type: "Sphere"}), "M3.141593,-10L3.141593,0L3.141593,10L3.141593,10L-3.141593,10L-3.141593,10L-3.141593,0L-3.141593,-10L-3.141593,-10L3.141593,-10Z");
   assert.deepStrictEqual(projection.clipExtent(), [[-10, -10], [10, 10]]);
 });
 
 it("mercator.clipExtent(extent).translate(translate) updates the intersected clip extent", () => {
-  const projection = d3.geoMercator().scale(1).clipExtent([[-10, -10], [10, 10]]).translate([0, 0]).precision(0);
-  assertPathEqual(d3.geoPath(projection)({type: "Sphere"}), "M3.141593,-10L3.141593,0L3.141593,10L3.141593,10L-3.141593,10L-3.141593,10L-3.141593,0L-3.141593,-10L-3.141593,-10L3.141593,-10Z");
+  const projection = geoMercator().scale(1).clipExtent([[-10, -10], [10, 10]]).translate([0, 0]).precision(0);
+  assertPathEqual(geoPath(projection)({type: "Sphere"}), "M3.141593,-10L3.141593,0L3.141593,10L3.141593,10L-3.141593,10L-3.141593,10L-3.141593,0L-3.141593,-10L-3.141593,-10L3.141593,-10Z");
   assert.deepStrictEqual(projection.clipExtent(), [[-10, -10], [10, 10]]);
 });
 
 it("mercator.rotate(…) does not affect the automatic clip extent", () => {
-  const projection = d3.geoMercator(), object = {
+  const projection = geoMercator(), object = {
     type: "MultiPoint",
     coordinates: [
       [-82.35024908550241, 29.649391549778745],

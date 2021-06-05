@@ -14,10 +14,8 @@ function formatNumber(s) {
   return Math.abs((s = +s) - Math.round(s)) < 1e-6 ? Math.round(s) : s.toFixed(6);
 }
 
-export function assertInDelta(actual, expected, delta) {
-  delta = delta || 1e-6;
-  assert(inDelta(actual, expected, delta),
-    `${actual} should be within ${delta} of ${expected}`);
+export function assertInDelta(actual, expected, delta = 1e-6) {
+  assert(inDelta(actual, expected, delta), `${actual} should be within ${delta} of ${expected}`);
 }
 
 function inDelta(actual, expected, delta) {
