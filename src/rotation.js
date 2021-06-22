@@ -2,7 +2,8 @@ import compose from "./compose.js";
 import {abs, asin, atan2, cos, degrees, pi, radians, sin, tau} from "./math.js";
 
 function rotationIdentity(lambda, phi) {
-  return [abs(lambda) > pi ? lambda + Math.round(-lambda / tau) * tau : lambda, phi];
+  if (abs(lambda) > pi) lambda -= Math.round(lambda / tau) * tau;
+  return [lambda, phi];
 }
 
 rotationIdentity.invert = rotationIdentity;
@@ -16,7 +17,9 @@ export function rotateRadians(deltaLambda, deltaPhi, deltaGamma) {
 
 function forwardRotationLambda(deltaLambda) {
   return function(lambda, phi) {
-    return lambda += deltaLambda, [lambda > pi ? lambda - tau : lambda < -pi ? lambda + tau : lambda, phi];
+    lambda += deltaLambda;
+    if (abs(lambda) > pi) lambda -= Math.round(lambda / tau) * tau;
+    return [lambda, phi];
   };
 }
 
