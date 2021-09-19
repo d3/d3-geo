@@ -16,7 +16,7 @@ export default function clipRectangle(x0, y0, x1, y1) {
   }
 
   function interpolate(from, to, direction, stream) {
-    var a = 0, a1 = 0;
+    var a, a1;
     if (from == null
         || (a = corner(from, direction)) !== (a1 = corner(to, direction))
         || comparePoint(from, to) < 0 ^ direction > 0) {
