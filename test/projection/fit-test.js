@@ -58,13 +58,6 @@ it("projection.fitExtent(…) world conicEquidistant", () => {
   assertInDelta(projection.translate(), [500, 498.598401], 1e-6);
 });
 
-it("projection.fitExtent(…) world equirectangular", () => {
-  const projection = geoEquirectangular();
-  projection.fitExtent([[50, 50], [950, 950]], world);
-  assertInDelta(projection.scale(), 143.239449, 1e-6);
-  assertInDelta(projection.translate(), [500, 492.000762], 1e-6);
-});
-
 it("projection.fitSize(…) world equirectangular", () => {
   const projection = geoEquirectangular();
   projection.fitSize([900, 900], world);
