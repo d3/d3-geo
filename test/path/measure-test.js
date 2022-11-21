@@ -10,7 +10,7 @@ it("geoPath.measure(…) of a Point", () => {
 
 it("geoPath.measure(…) of a MultiPoint", () => {
   assert.strictEqual(geoPath().measure({
-    type: "Point",
+    type: "MultiPoint",
     coordinates: [[0, 0], [0, 1], [1, 1], [1, 0]]
   }), 0);
 });
