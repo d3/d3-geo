@@ -203,3 +203,67 @@ it("geoPath(LineString) then geoPath(Point) does not treat the point as part of 
     {type: "arc", x: 165, y: 160, r: 4.5}
   ]);
 });
+
+it("geoPath.digits() defaults to three", () => {
+  const path = geoPath();
+  assert.strictEqual(path.digits(), 3);
+});
+
+it("geoPath.digits(digits) returns the current path after setting the digits option", () => {
+  const path = geoPath();
+  assert.strictEqual(path.digits(4), path);
+  assert.strictEqual(path.digits(), 4);
+  assert.strictEqual(path.digits(0).digits(), 0);
+  assert.strictEqual(geoPath().digits(), 3); // doesn’t affect default
+});
+
+it("geoPath.digits(nullish) sets digits to null", () => {
+  const path = geoPath();
+  assert.strictEqual(path.digits(null).digits(), null);
+  assert.strictEqual(path.digits(undefined).digits(), null);
+});
+
+it("geoPath.digits(digits) floors and coerces digits if not nullish", () => {
+  const path = geoPath();
+  assert.strictEqual(path.digits(3.5).digits(), 3);
+  assert.strictEqual(path.digits(3.9).digits(), 3);
+  assert.strictEqual(path.digits("3").digits(), 3);
+  assert.strictEqual(path.digits(" 3").digits(), 3);
+  assert.strictEqual(path.digits("").digits(), 0);
+  assert.strictEqual(path.digits(NaN).digits(), 0);
+});
+
+it("geoPath.digits(digits) throws if digits is not valid", () => {
+  const path = geoPath();
+  assert.throws(() => path.digits(-1).digits(), RangeError);
+  assert.throws(() => path.digits(-0.1).digits(), RangeError);
+});
+
+it("path(object) respects the specified digits", () => {
+  const line = {type: "LineString", coordinates: [[Math.PI, Math.E], [Math.E, Math.PI]]};
+  assert.strictEqual(geoPath().digits(0)(line), "M3,3L3,3");
+  assert.strictEqual(geoPath().digits(1)(line), "M3.1,2.7L2.7,3.1");
+  assert.strictEqual(geoPath().digits(2)(line), "M3.14,2.72L2.72,3.14");
+  assert.strictEqual(geoPath().digits(3)(line), "M3.142,2.718L2.718,3.142");
+  assert.strictEqual(geoPath().digits(4)(line), "M3.1416,2.7183L2.7183,3.1416");
+  assert.strictEqual(geoPath().digits(5)(line), "M3.14159,2.71828L2.71828,3.14159");
+  assert.strictEqual(geoPath().digits(6)(line), "M3.141593,2.718282L2.718282,3.141593");
+  assert.strictEqual(geoPath().digits(40)(line), "M3.141592653589793,2.718281828459045L2.718281828459045,3.141592653589793");
+  assert.strictEqual(geoPath().digits(null)(line), "M3.141592653589793,2.718281828459045L2.718281828459045,3.141592653589793");
+});
+
+it("path(object) handles variable-radius points with different digits", () => {
+  const p1 = geoPath().digits(1);
+  const p2 = geoPath().digits(2);
+  const point = {type: "Point", coordinates: [Math.PI, Math.E]};
+  assert.strictEqual(p1.pointRadius(1)(point), "M3.1,2.7m0,1a1,1 0 1,1 0,-2a1,1 0 1,1 0,2z");
+  assert.strictEqual(p1(point), "M3.1,2.7m0,1a1,1 0 1,1 0,-2a1,1 0 1,1 0,2z");
+  assert.strictEqual(p1.pointRadius(2)(point), "M3.1,2.7m0,2a2,2 0 1,1 0,-4a2,2 0 1,1 0,4z");
+  assert.strictEqual(p1(point), "M3.1,2.7m0,2a2,2 0 1,1 0,-4a2,2 0 1,1 0,4z");
+  assert.strictEqual(p2.pointRadius(1)(point), "M3.14,2.72m0,1a1,1 0 1,1 0,-2a1,1 0 1,1 0,2z");
+  assert.strictEqual(p2(point), "M3.14,2.72m0,1a1,1 0 1,1 0,-2a1,1 0 1,1 0,2z");
+  assert.strictEqual(p1(point), "M3.1,2.7m0,2a2,2 0 1,1 0,-4a2,2 0 1,1 0,4z");
+  assert.strictEqual(p2.pointRadius(2)(point), "M3.14,2.72m0,2a2,2 0 1,1 0,-4a2,2 0 1,1 0,4z");
+  assert.strictEqual(p2(point), "M3.14,2.72m0,2a2,2 0 1,1 0,-4a2,2 0 1,1 0,4z");
+  assert.strictEqual(p1(point), "M3.1,2.7m0,2a2,2 0 1,1 0,-4a2,2 0 1,1 0,4z");
+});
