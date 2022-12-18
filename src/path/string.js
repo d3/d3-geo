@@ -3,7 +3,7 @@ let cacheDigits, cacheAppend, cacheRadius, cacheCircle;
 
 export default class PathString {
   constructor(digits) {
-    this._append = digits == null ? append : appendFixed(digits = +digits);
+    this._append = digits == null ? append : appendFixed(+digits);
     this._radius = 4.5;
     this._ = "";
   }
