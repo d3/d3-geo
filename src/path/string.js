@@ -37,12 +37,15 @@ export default class PathString {
       }
       default: {
         this._append`M${x},${y}`;
-        if (this._append !== cacheAppend || this._radius !== cacheRadius) {
-          const r = cacheRadius = this._radius;
-          const p = new PathString(this._digits);
-          p._append`m0,${r}a${r},${r} 0 1,1 0,${-2 * r}a${r},${r} 0 1,1 0,${2 * r}z`;
+        if (this._radius !== cacheRadius || this._append !== cacheAppend) {
+          const r = this._radius;
+          const s = this._;
+          this._ = ""; // stash the old string so we can cache the circle path fragment
+          this._append`m0,${r}a${r},${r} 0 1,1 0,${-2 * r}a${r},${r} 0 1,1 0,${2 * r}z`;
+          cacheRadius = r;
           cacheAppend = this._append;
-          cacheCircle = p._;
+          cacheCircle = this._;
+          this._ = s;
         }
         this._ += cacheCircle;
         break;
