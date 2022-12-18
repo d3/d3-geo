@@ -1,59 +1,78 @@
-export default function PathString() {
-  this._string = [];
-}
+// Simple caching for constant-radius points.
+let cacheDigits, cacheTemplate, cacheRadius, cacheCircle;
 
-PathString.prototype = {
-  _radius: 4.5,
-  _circle: circle(4.5),
-  pointRadius: function(_) {
-    if ((_ = +_) !== this._radius) this._radius = _, this._circle = null;
+export default class PathString {
+  constructor(digits) {
+    this._template = digits == null ? template : templateFixed(digits = +digits);
+    this._radius = 4.5;
+    this._ = "";
+  }
+  pointRadius(_) {
+    this._radius = +_;
     return this;
-  },
-  polygonStart: function() {
+  }
+  polygonStart() {
     this._line = 0;
-  },
-  polygonEnd: function() {
+  }
+  polygonEnd() {
     this._line = NaN;
-  },
-  lineStart: function() {
+  }
+  lineStart() {
     this._point = 0;
-  },
-  lineEnd: function() {
-    if (this._line === 0) this._string.push("Z");
+  }
+  lineEnd() {
+    if (this._line === 0) this._ += "Z";
     this._point = NaN;
-  },
-  point: function(x, y) {
+  }
+  point(x, y) {
     switch (this._point) {
       case 0: {
-        this._string.push("M", x, ",", y);
+        this._ += this._template`M${x},${y}`;
         this._point = 1;
         break;
       }
       case 1: {
-        this._string.push("L", x, ",", y);
+        this._ += this._template`L${x},${y}`;
         break;
       }
       default: {
-        if (this._circle == null) this._circle = circle(this._radius);
-        this._string.push("M", x, ",", y, this._circle);
+        this._ += this._template`M${x},${y}`;
+        if (this._template !== cacheTemplate || this._radius !== cacheRadius) {
+          const r = cacheRadius = this._radius;
+          cacheTemplate = this._template;
+          cacheCircle = this._template`m0,${r}a${r},${r} 0 1,1 0,${-2 * r}a${r},${r} 0 1,1 0,${2 * r}z`;
+        }
+        this._ += cacheCircle;
         break;
       }
     }
-  },
-  result: function() {
-    if (this._string.length) {
-      var result = this._string.join("");
-      this._string = [];
-      return result;
-    } else {
-      return null;
-    }
   }
-};
+  result() {
+    const result = this._;
+    this._ = "";
+    return result.length ? result : null;
+  }
+}
 
-function circle(radius) {
-  return "m0," + radius
-      + "a" + radius + "," + radius + " 0 1,1 0," + -2 * radius
-      + "a" + radius + "," + radius + " 0 1,1 0," + 2 * radius
-      + "z";
+function template(strings) {
+  let i = 1, string = strings[0];
+  for (const j = strings.length; i < j; ++i) {
+    string += arguments[i] + strings[i];
+  }
+  return string;
+}
+
+function templateFixed(digits) {
+  if (digits !== cacheDigits) {
+    (0).toFixed(digits); // validate digits
+    cacheDigits = digits;
+    cacheTemplate = function template(strings) {
+      let i = 1, string = strings[0];
+      for (const j = strings.length; i < j; ++i) {
+        string += +arguments[i].toFixed(digits) + strings[i];
+      }
+      return string;
+    };
+  }
+  return cacheTemplate;
 }

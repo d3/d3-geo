@@ -8,7 +8,8 @@ import pathMeasure from "./measure.js";
 import PathString from "./string.js";
 
 export default function(projection, context) {
-  var pointRadius = 4.5,
+  let digits = 3,
+      pointRadius = 4.5,
       projectionStream,
       contextStream;
 
@@ -41,12 +42,14 @@ export default function(projection, context) {
   };
 
   path.projection = function(_) {
-    return arguments.length ? (projectionStream = _ == null ? (projection = null, identity) : (projection = _).stream, path) : projection;
+    if (!arguments.length) return projection;
+    projectionStream = _ == null ? (projection = null, identity) : (projection = _).stream;
+    return path;
   };
 
   path.context = function(_) {
     if (!arguments.length) return context;
-    contextStream = _ == null ? (context = null, new PathString) : new PathContext(context = _);
+    contextStream = _ == null ? (context = null, new PathString(digits)) : new PathContext(context = _);
     if (typeof pointRadius !== "function") contextStream.pointRadius(pointRadius);
     return path;
   };
@@ -57,5 +60,12 @@ export default function(projection, context) {
     return path;
   };
 
-  return path.projection(projection).context(context);
+  path.digits = function(_) {
+    if (!arguments.length) return digits;
+    digits = _ == null ? null : +_;
+    if (context === null) contextStream = new PathString(digits);
+    return path;
+  };
+
+  return path.projection(projection).digits(digits).context(context);
 }
