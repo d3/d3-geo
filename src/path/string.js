@@ -3,7 +3,7 @@ let cacheDigits, cacheAppend, cacheRadius, cacheCircle;
 
 export default class PathString {
   constructor(digits) {
-    this._append = digits == null ? append : appendFixed(+digits);
+    this._append = digits == null ? append : appendRound(digits);
     this._radius = 4.5;
     this._ = "";
   }
@@ -67,15 +67,18 @@ function append(strings) {
   }
 }
 
-function appendFixed(digits) {
-  if (digits !== cacheDigits) {
-    (0).toFixed(digits); // validate digits
-    cacheDigits = digits;
+function appendRound(digits) {
+  let d = Math.floor(digits);
+  if (!(d >= 0)) throw new RangeError(`invalid digits: ${digits}`);
+  if (d > 15) return append;
+  if (d !== cacheDigits) {
+    const k = 10 ** d;
+    cacheDigits = d;
     cacheAppend = function append(strings) {
       let i = 1;
       this._ += strings[0];
       for (const j = strings.length; i < j; ++i) {
-        this._ += +arguments[i].toFixed(digits) + strings[i];
+        this._ += Math.round(arguments[i] * k) / k + strings[i];
       }
     };
   }
