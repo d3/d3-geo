@@ -62,7 +62,12 @@ export default function(projection, context) {
 
   path.digits = function(_) {
     if (!arguments.length) return digits;
-    digits = _ == null ? null : ((0).toFixed(_ = Math.floor(_) || 0), _);
+    if (_ == null) digits = null;
+    else {
+      const d = Math.floor(_);
+      if (!(d >= 0)) throw new RangeError(`invalid digits: ${_}`);
+      digits = d;
+    }
     if (context === null) contextStream = new PathString(digits);
     return path;
   };

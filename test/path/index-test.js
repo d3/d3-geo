@@ -230,11 +230,11 @@ it("geoPath.digits(digits) floors and coerces digits if not nullish", () => {
   assert.strictEqual(path.digits("3").digits(), 3);
   assert.strictEqual(path.digits(" 3").digits(), 3);
   assert.strictEqual(path.digits("").digits(), 0);
-  assert.strictEqual(path.digits(NaN).digits(), 0);
 });
 
 it("geoPath.digits(digits) throws if digits is not valid", () => {
   const path = geoPath();
+  assert.throws(() => path.digits(NaN).digits(), RangeError);
   assert.throws(() => path.digits(-1).digits(), RangeError);
   assert.throws(() => path.digits(-0.1).digits(), RangeError);
 });

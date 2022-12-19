@@ -68,7 +68,7 @@ function append(strings) {
 }
 
 function appendRound(digits) {
-  let d = Math.floor(digits);
+  const d = Math.floor(digits);
   if (!(d >= 0)) throw new RangeError(`invalid digits: ${digits}`);
   if (d > 15) return append;
   if (d !== cacheDigits) {
