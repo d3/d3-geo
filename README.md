@@ -116,6 +116,10 @@ Returns the projected planar bounding box (typically in pixels) for the specifie
 
 Returns the projected planar centroid (typically in pixels) for the specified GeoJSON *object*. This is handy for, say, labeling state or county boundaries, or displaying a symbol map. For example, a [noncontiguous cartogram](https://bl.ocks.org/mbostock/4055908) might scale each state around its centroid. This method observes any clipping performed by the [projection](#path_projection); see [*projection*.clipAngle](#projection_clipAngle) and [*projection*.clipExtent](#projection_clipExtent). This is the planar equivalent of [d3.geoCentroid](#geoCentroid).
 
+<a href="#path_digits" name="path_digits">#</a> <i>path</i>.<b>digits</b>([<i>digits</i>]) [<>](https://github.com/d3/d3-geo/blob/main/src/path/index.js "Source")
+
+If *digits* is specified (as a non-negative number), sets the number of fractional digits for coordinates generated in SVG path strings. If *projection* is not specified, returns the current number of digits, which defaults to 3.
+
 <a href="#path_measure" name="path_measure">#</a> <i>path</i>.<b>measure</b>(<i>object</i>) [<>](https://github.com/d3/d3-geo/blob/main/src/path/measure.js "Source")
 
 Returns the projected planar length (typically in pixels) for the specified GeoJSON *object*. Point and MultiPoint geometries have zero length. For Polygon and MultiPolygon geometries, this method computes the summed length of all rings. This method observes any clipping performed by the [projection](#path_projection); see [*projection*.clipAngle](#projection_clipAngle) and [*projection*.clipExtent](#projection_clipExtent). This is the planar equivalent of [d3.geoLength](#geoLength).
