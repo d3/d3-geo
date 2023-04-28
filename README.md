@@ -521,7 +521,7 @@ If *precision* is specified, sets the circle precision to the specified angle in
 
 ```js
 function precision() {
-  return 6;
+  return 2;
 }
 ```
 
