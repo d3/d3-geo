@@ -40,8 +40,8 @@ it("projection.fitExtent(…) world azimuthalEquidistant", () => {
 it("projection.fitExtent(…) world conicConformal", () => {
   const projection = geoConicConformal().clipAngle(30).parallels([30, 60]).rotate([0, -45]);
   projection.fitExtent([[50, 50], [950, 950]], world);
-  assertInDelta(projection.scale(), 626.111027, 1e-6);
-  assertInDelta(projection.translate(), [444.395951, 410.223799], 1e-6);
+  assertInDelta(projection.scale(), 625.567161, 1e-6);
+  assertInDelta(projection.translate(), [444.206209, 409.910893], 1e-6);
 });
 
 it("projection.fitExtent(…) world conicEqualArea", () => {
@@ -69,7 +69,7 @@ it("projection.fitExtent(…) world gnomonic", () => {
   const projection = geoGnomonic().clipAngle(45);
   projection.fitExtent([[50, 50], [950, 950]], world);
   assertInDelta(projection.scale(), 450.348233, 1e-6);
-  assertInDelta(projection.translate(), [500.115138, 556.522620], 1e-6);
+  assertInDelta(projection.translate(), [500.115138, 556.551304], 1e-6);
 });
 
 it("projection.fitExtent(…) world mercator", () => {

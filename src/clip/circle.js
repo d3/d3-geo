@@ -6,7 +6,7 @@ import clip from "./index.js";
 
 export default function(radius) {
   var cr = cos(radius),
-      delta = 6 * radians,
+      delta = 2 * radians,
       smallRadius = cr > 0,
       notHemisphere = abs(cr) > epsilon; // TODO optimise for this common case
 
