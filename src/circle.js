@@ -34,7 +34,7 @@ function circleRadius(cosRadius, point) {
 export default function() {
   var center = constant([0, 0]),
       radius = constant(90),
-      precision = constant(6),
+      precision = constant(2),
       ring,
       rotate,
       stream = {point: point};
