@@ -24,6 +24,12 @@ export {default as geoEquirectangular, equirectangularRaw as geoEquirectangularR
 export {default as geoGnomonic, gnomonicRaw as geoGnomonicRaw} from "./projection/gnomonic.js";
 export {default as geoIdentity} from "./projection/identity.js";
 export {default as geoProjection, projectionMutator as geoProjectionMutator} from "./projection/index.js";
+export {
+  fitExtent as geoProjectionFitExtent,
+  fitSize as geoProjectionFitSize,
+  fitWidth as geoProjectionFitWidth,
+  fitHeight as geoProjectionFitHeight
+} from "./projection/fit.js";
 export {default as geoMercator, mercatorRaw as geoMercatorRaw} from "./projection/mercator.js";
 export {default as geoNaturalEarth1, naturalEarth1Raw as geoNaturalEarth1Raw} from "./projection/naturalEarth1.js";
 export {default as geoOrthographic, orthographicRaw as geoOrthographicRaw} from "./projection/orthographic.js";
