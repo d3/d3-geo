@@ -23,5 +23,5 @@ it("circle.center([45, 45])", () => {
 
 it("circle: first and last points are coincident", () => {
   const o = geoCircle().center([0, 0]).radius(0.02).precision(45)();
-  assertInDelta(o.coordinates[0][0], o.coordinates[0].pop(), 1e-6);
+  assert.deepStrictEqual(o.coordinates[0][0], o.coordinates[0].pop());
 });
