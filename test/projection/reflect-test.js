@@ -1,9 +1,10 @@
+import {test} from "vitest";
 import assert from "assert";
 import {geoGnomonic, geoMercator} from "../../src/index.js";
 import {assertInDelta} from "../asserts.js";
 import {assertProjectionEqual} from "./asserts.js";
 
-it("projection.reflectX(…) defaults to false", () => {
+test("projection.reflectX(…) defaults to false", () => {
   const projection = geoGnomonic().scale(1).translate([0, 0]);
   assert.strictEqual(projection.reflectX(), false);
   assert.strictEqual(projection.reflectY(), false);
@@ -12,7 +13,7 @@ it("projection.reflectX(…) defaults to false", () => {
   assertProjectionEqual(projection, [0, 10], [0, -0.17632698070846498]);
 });
 
-it("projection.reflectX(…) mirrors x after projecting", () => {
+test("projection.reflectX(…) mirrors x after projecting", () => {
   const projection = geoGnomonic().scale(1).translate([0, 0]).reflectX(true);
   assert.strictEqual(projection.reflectX(), true);
   assertProjectionEqual(projection, [0, 0], [0, 0]);
@@ -26,7 +27,7 @@ it("projection.reflectX(…) mirrors x after projecting", () => {
   assertProjectionEqual(projection, [0, 10], [0, 0.17632698070846498]);
 });
 
-it("projection.reflectX(…) works with projection.angle()", () => {
+test("projection.reflectX(…) works with projection.angle()", () => {
   const projection = geoMercator().scale(1).translate([10, 20]).reflectX(true).angle(45);
   assert.strictEqual(projection.reflectX(), true);
   assertInDelta(projection.angle(), 45);

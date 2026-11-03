@@ -1,3 +1,4 @@
+import {test} from "vitest";
 import assert from "assert";
 import {geoAlbers, geoEquirectangular, geoPath} from "../../src/index.js";
 import {testContext} from "./test-context.js";
@@ -16,28 +17,28 @@ function testPath(projection, object) {
   return context.result();
 }
 
-it("geoPath.projection() defaults to null", () => {
+test("geoPath.projection() defaults to null", () => {
   const path = geoPath();
   assert.strictEqual(path.projection(), null);
 });
 
-it("geoPath.context() defaults to null", () => {
+test("geoPath.context() defaults to null", () => {
   const path = geoPath();
   assert.strictEqual(path.context(), null);
 });
 
-it("geoPath(projection) sets the initial projection", () => {
+test("geoPath(projection) sets the initial projection", () => {
   const projection = geoAlbers(), path = geoPath(projection);
   assert.strictEqual(path.projection(), projection);
 });
 
-it("geoPath(projection, context) sets the initial projection and context", () => {
+test("geoPath(projection, context) sets the initial projection and context", () => {
   const context = testContext(), projection = geoAlbers(), path = geoPath(projection, context);
   assert.strictEqual(path.projection(), projection);
   assert.strictEqual(path.context(), context);
 });
 
-it("geoPath(Point) renders a point", () => {
+test("geoPath(Point) renders a point", () => {
   assert.deepStrictEqual(testPath(equirectangular, {
     type: "Point",
     coordinates: [-63, 18]
@@ -47,7 +48,7 @@ it("geoPath(Point) renders a point", () => {
   ]);
 });
 
-it("geoPath(MultiPoint) renders a point", () => {
+test("geoPath(MultiPoint) renders a point", () => {
   assert.deepStrictEqual(testPath(equirectangular, {
     type: "MultiPoint",
     coordinates: [[-63, 18], [-62, 18], [-62, 17]]
@@ -58,7 +59,7 @@ it("geoPath(MultiPoint) renders a point", () => {
   ]);
 });
 
-it("geoPath(LineString) renders a line string", () => {
+test("geoPath(LineString) renders a line string", () => {
   assert.deepStrictEqual(testPath(equirectangular, {
     type: "LineString",
     coordinates: [[-63, 18], [-62, 18], [-62, 17]]
@@ -69,7 +70,7 @@ it("geoPath(LineString) renders a line string", () => {
   ]);
 });
 
-it("geoPath(Polygon) renders a polygon", () => {
+test("geoPath(Polygon) renders a polygon", () => {
   assert.deepStrictEqual(testPath(equirectangular, {
     type: "Polygon",
     coordinates: [[[-63, 18], [-62, 18], [-62, 17], [-63, 18]]]
@@ -81,7 +82,7 @@ it("geoPath(Polygon) renders a polygon", () => {
   ]);
 });
 
-it("geoPath(GeometryCollection) renders a geometry collection", () => {
+test("geoPath(GeometryCollection) renders a geometry collection", () => {
   assert.deepStrictEqual(testPath(equirectangular, {
     type: "GeometryCollection",
     geometries: [{
@@ -96,7 +97,7 @@ it("geoPath(GeometryCollection) renders a geometry collection", () => {
   ]);
 });
 
-it("geoPath(Feature) renders a feature", () => {
+test("geoPath(Feature) renders a feature", () => {
   assert.deepStrictEqual(testPath(equirectangular, {
     type: "Feature",
     geometry: {
@@ -111,7 +112,7 @@ it("geoPath(Feature) renders a feature", () => {
   ]);
 });
 
-it("geoPath(FeatureCollection) renders a feature collection", () => {
+test("geoPath(FeatureCollection) renders a feature collection", () => {
   assert.deepStrictEqual(testPath(equirectangular, {
     type: "FeatureCollection",
     features: [{
@@ -129,7 +130,7 @@ it("geoPath(FeatureCollection) renders a feature collection", () => {
   ]);
 });
 
-it("geoPath(…) wraps longitudes outside of ±180°", () => {
+test("geoPath(…) wraps longitudes outside of ±180°", () => {
   assert.deepStrictEqual(testPath(equirectangular, {
     type: "Point",
     coordinates: [180 + 1e-6, 0]
@@ -139,7 +140,7 @@ it("geoPath(…) wraps longitudes outside of ±180°", () => {
   ]);
 });
 
-it("geoPath(…) observes the correct winding order of a tiny polygon", () => {
+test("geoPath(…) observes the correct winding order of a tiny polygon", () => {
   assert.deepStrictEqual(testPath(equirectangular, {
     type: "Polygon",
     coordinates: [[
@@ -158,7 +159,7 @@ it("geoPath(…) observes the correct winding order of a tiny polygon", () => {
   ]);
 });
 
-it("geoPath.projection(null)(…) does not transform coordinates", () => {
+test("geoPath.projection(null)(…) does not transform coordinates", () => {
   assert.deepStrictEqual(testPath(null, {
     type: "Polygon",
     coordinates: [[[-63, 18], [-62, 18], [-62, 17], [-63, 18]]]
@@ -170,20 +171,20 @@ it("geoPath.projection(null)(…) does not transform coordinates", () => {
   ]);
 });
 
-it("geoPath.context(null)(null) returns null", () => {
+test("geoPath.context(null)(null) returns null", () => {
   const path = geoPath();
   assert.strictEqual(path(), null);
   assert.strictEqual(path(null), null);
   assert.strictEqual(path(undefined), null);
 });
 
-it("geoPath.context(null)(Unknown) returns null", () => {
+test("geoPath.context(null)(Unknown) returns null", () => {
   const path = geoPath();
   assert.strictEqual(path({type: "Unknown"}), null);
   assert.strictEqual(path({type: "__proto__"}), null);
 });
 
-it("geoPath(LineString) then geoPath(Point) does not treat the point as part of a line", () => {
+test("geoPath(LineString) then geoPath(Point) does not treat the point as part of a line", () => {
   const context = testContext(), path = geoPath().projection(equirectangular).context(context);
   path({
     type: "LineString",
@@ -204,12 +205,12 @@ it("geoPath(LineString) then geoPath(Point) does not treat the point as part of 
   ]);
 });
 
-it("geoPath.digits() defaults to three", () => {
+test("geoPath.digits() defaults to three", () => {
   const path = geoPath();
   assert.strictEqual(path.digits(), 3);
 });
 
-it("geoPath.digits(digits) returns the current path after setting the digits option", () => {
+test("geoPath.digits(digits) returns the current path after setting the digits option", () => {
   const path = geoPath();
   assert.strictEqual(path.digits(4), path);
   assert.strictEqual(path.digits(), 4);
@@ -217,13 +218,13 @@ it("geoPath.digits(digits) returns the current path after setting the digits opt
   assert.strictEqual(geoPath().digits(), 3); // doesn’t affect default
 });
 
-it("geoPath.digits(nullish) sets digits to null", () => {
+test("geoPath.digits(nullish) sets digits to null", () => {
   const path = geoPath();
   assert.strictEqual(path.digits(null).digits(), null);
   assert.strictEqual(path.digits(undefined).digits(), null);
 });
 
-it("geoPath.digits(digits) floors and coerces digits if not nullish", () => {
+test("geoPath.digits(digits) floors and coerces digits if not nullish", () => {
   const path = geoPath();
   assert.strictEqual(path.digits(3.5).digits(), 3);
   assert.strictEqual(path.digits(3.9).digits(), 3);
@@ -232,14 +233,14 @@ it("geoPath.digits(digits) floors and coerces digits if not nullish", () => {
   assert.strictEqual(path.digits("").digits(), 0);
 });
 
-it("geoPath.digits(digits) throws if digits is not valid", () => {
+test("geoPath.digits(digits) throws if digits is not valid", () => {
   const path = geoPath();
   assert.throws(() => path.digits(NaN).digits(), RangeError);
   assert.throws(() => path.digits(-1).digits(), RangeError);
   assert.throws(() => path.digits(-0.1).digits(), RangeError);
 });
 
-it("path(object) respects the specified digits", () => {
+test("path(object) respects the specified digits", () => {
   const line = {type: "LineString", coordinates: [[Math.PI, Math.E], [Math.E, Math.PI]]};
   assert.strictEqual(geoPath().digits(0)(line), "M3,3L3,3");
   assert.strictEqual(geoPath().digits(1)(line), "M3.1,2.7L2.7,3.1");
@@ -252,7 +253,7 @@ it("path(object) respects the specified digits", () => {
   assert.strictEqual(geoPath().digits(null)(line), "M3.141592653589793,2.718281828459045L2.718281828459045,3.141592653589793");
 });
 
-it("path(object) handles variable-radius points with different digits", () => {
+test("path(object) handles variable-radius points with different digits", () => {
   const p1 = geoPath().digits(1);
   const p2 = geoPath().digits(2);
   const point = {type: "Point", coordinates: [Math.PI, Math.E]};

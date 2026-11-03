@@ -1,3 +1,4 @@
+import {test} from "vitest";
 import assert from "assert";
 import {mkdirSync, promises} from "fs";
 import {resolve} from "path";
@@ -10,7 +11,7 @@ const {readFile, writeFile} = promises;
 mkdirSync("./test/snapshots", {recursive: true});
 
 for (const [name, snapshot] of Object.entries(snapshots)) {
-  it(`snapshot ${name}`, async () => {
+  test(`snapshot ${name}`, async () => {
     const canvas = await snapshot();
     const actual = PNG.sync.read(canvas.toBuffer());
     const outfile = resolve("./test/snapshots", `${name}.png`);

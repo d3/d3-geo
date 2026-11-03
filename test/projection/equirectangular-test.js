@@ -1,9 +1,10 @@
+import {test} from "vitest";
 import {geoEquirectangular} from "../../src/index.js";
 import {assertProjectionEqual} from "./asserts.js";
 
 const pi = Math.PI;
 
-it("equirectangular(point) returns the expected result", () => {
+test("equirectangular(point) returns the expected result", () => {
   const equirectangular = geoEquirectangular().translate([0, 0]).scale(1);
   assertProjectionEqual(equirectangular, [   0,   0], [ 0,  0]);
   assertProjectionEqual(equirectangular, [-180,   0], [-pi,  0]);
@@ -16,7 +17,7 @@ it("equirectangular(point) returns the expected result", () => {
   assertProjectionEqual(equirectangular, [ -30, -30], [-pi / 6,  pi / 6]);
 });
 
-it("equirectangular.rotate([30, 0])(point) returns the expected result", () => {
+test("equirectangular.rotate([30, 0])(point) returns the expected result", () => {
   const equirectangular = geoEquirectangular().rotate([30, 0]).translate([0, 0]).scale(1);
   assertProjectionEqual(equirectangular, [   0,   0], [ pi / 6,  0]);
   assertProjectionEqual(equirectangular, [-180,   0], [-5 / 6 * pi,  0]);
@@ -29,7 +30,7 @@ it("equirectangular.rotate([30, 0])(point) returns the expected result", () => {
   assertProjectionEqual(equirectangular, [ -30, -30], [ 0    ,  pi / 6]);
 });
 
-it("equirectangular.rotate([30, 30])(point) returns the expected result", () => {
+test("equirectangular.rotate([30, 30])(point) returns the expected result", () => {
   const equirectangular = geoEquirectangular().rotate([30, 30]).translate([0, 0]).scale(1);
   assertProjectionEqual(equirectangular, [   0,   0], [ 0.5880026035475674, -0.44783239692893245]);
   assertProjectionEqual(equirectangular, [-180,   0], [-2.5535900500422257,  0.44783239692893245]);
@@ -42,7 +43,7 @@ it("equirectangular.rotate([30, 30])(point) returns the expected result", () => 
   assertProjectionEqual(equirectangular, [ -30, -30], [ 0.0000000000000000,  0.00000000000000000]);
 });
 
-it("equirectangular.rotate([0, 0, 30])(point) returns the expected result", () => {
+test("equirectangular.rotate([0, 0, 30])(point) returns the expected result", () => {
   const equirectangular = geoEquirectangular().rotate([0, 0, 30]).translate([0, 0]).scale(1);
   assertProjectionEqual(equirectangular, [   0,   0], [ 0, 0]);
   assertProjectionEqual(equirectangular, [-180,   0], [-pi, 0]);
@@ -55,7 +56,7 @@ it("equirectangular.rotate([0, 0, 30])(point) returns the expected result", () =
   assertProjectionEqual(equirectangular, [ -30, -30], [-0.1651486774146268,  0.7069517278872176]);
 });
 
-it("equirectangular.rotate([30, 30, 30])(point) returns the expected result", () => {
+test("equirectangular.rotate([30, 30, 30])(point) returns the expected result", () => {
   const equirectangular = geoEquirectangular().rotate([30, 30, 30]).translate([0, 0]).scale(1);
   assertProjectionEqual(equirectangular, [   0,   0], [ 0.2810349015028135, -0.6751315329370317]);
   assertProjectionEqual(equirectangular, [-180,   0], [-2.860557752086980,   0.6751315329370317]);

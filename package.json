@@ -37,20 +37,23 @@
     "d3-array": "2.5.0 - 3"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^1.0.2",
     "canvas": "^3.2.3",
     "d3-format": "^3.1.2",
-    "eslint": "^8.57.1",
-    "mocha": "^10.8.2",
+    "eslint": "^9.39.5",
+    "globals": "^17.14.0",
     "pixelmatch": "^5.3.0",
     "pngjs": "^6.0.0",
     "rollup": "^4.67.4",
     "topojson-client": "^3.1.0",
+    "vitest": "^4.1.12",
     "world-atlas": "^1.1.4"
   },
   "scripts": {
-    "test": "mocha 'test/**/*-test.js' && eslint src test",
+    "test": "vitest",
+    "lint": "eslint src test",
     "prepublishOnly": "rm -rf dist && rollup -c"
   },
   "engines": {

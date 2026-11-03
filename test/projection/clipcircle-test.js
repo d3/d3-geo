@@ -1,7 +1,8 @@
+import {test} from "vitest";
 import assert from "assert";
 import {geoAzimuthalEqualArea, geoPath} from "../../src/index.js";
 
-it("projection.clipAngle() deals with degenerate polygons", () => {
+test("projection.clipAngle() deals with degenerate polygons", () => {
   // https://observablehq.com/d/495020ca139c39bd
   const polygon = {
     type: "Polygon",
