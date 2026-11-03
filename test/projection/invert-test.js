@@ -1,6 +1,6 @@
 import {it} from "vitest";
 
-import {geoAlbers, geoAlbersUsa, geoAzimuthalEqualArea, geoAzimuthalEquidistant, geoConicConformal, geoConicEqualArea, geoConicEquidistant, geoEqualEarth, geoEquirectangular, geoGnomonic, geoMercator, geoOrthographic, geoStereographic, geoTransverseMercator} from "../../src/index.js";
+import {geoAlbers, geoAlbersUsa, geoAzimuthalEqualArea, geoAzimuthalEquidistant, geoConicConformal, geoConicEqualArea, geoConicEquidistant, geoEqualEarth, geoEquirectangular, geoGnomonic, geoMercator, geoOrthographic, geoStereographic, geoTransverseMercator} from "d3-geo";
 import {assertProjectionEqual} from "./asserts.js";
 
 [

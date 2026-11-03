@@ -1,6 +1,6 @@
 import assert from "node:assert";
 import {it} from "vitest";
-import {geoAzimuthalEqualArea, geoPath} from "../../src/index.js";
+import {geoAzimuthalEqualArea, geoPath} from "d3-geo";
 
 it("projection.clipAngle() deals with degenerate polygons", () => {
   // https://observablehq.com/d/495020ca139c39bd

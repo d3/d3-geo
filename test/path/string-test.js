@@ -1,5 +1,5 @@
 import {it} from "vitest";
-import {geoEquirectangular, geoPath} from "../../src/index.js";
+import {geoEquirectangular, geoPath} from "d3-geo";
 import {assertPathEqual} from "../asserts.js";
 
 const equirectangular = geoEquirectangular()

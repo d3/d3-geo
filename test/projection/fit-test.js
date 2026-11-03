@@ -2,7 +2,7 @@ import assert from "node:assert";
 import {readFileSync} from "node:fs";
 import {it} from "vitest";
 import {feature} from "topojson-client";
-import {geoAlbersUsa, geoAzimuthalEqualArea, geoAzimuthalEquidistant, geoConicConformal, geoConicEqualArea, geoConicEquidistant, geoEquirectangular, geoGnomonic, geoMercator, geoOrthographic, geoProjection, geoStereographic, geoTransverseMercator} from "../../src/index.js";
+import {geoAlbersUsa, geoAzimuthalEqualArea, geoAzimuthalEquidistant, geoConicConformal, geoConicEqualArea, geoConicEquidistant, geoEquirectangular, geoGnomonic, geoMercator, geoOrthographic, geoProjection, geoStereographic, geoTransverseMercator} from "d3-geo";
 import {assertInDelta} from "../asserts.js";
 
 const usTopo = JSON.parse(readFileSync("./test/data/us-10m.json"));

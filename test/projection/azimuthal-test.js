@@ -1,6 +1,6 @@
 import assert from "node:assert";
 import {it} from "vitest";
-import {geoAzimuthalEqualArea, geoAzimuthalEquidistant} from "../../src/index.js";
+import {geoAzimuthalEqualArea, geoAzimuthalEquidistant} from "d3-geo";
 
 it("azimuthal projections don't crash on the antipode", () => {
   for (const p of [

@@ -1,5 +1,5 @@
 import {it} from "vitest";
-import {geoMercator, geoPath} from "../../src/index.js";
+import {geoMercator, geoPath} from "d3-geo";
 import {assertPathEqual} from "../asserts.js";
 
 it("a rotation of a degenerate polygon should not break", () => {

@@ -1,6 +1,6 @@
 import assert from "node:assert";
 import {it} from "vitest";
-import {geoAlbersUsa} from "../../src/index.js";
+import {geoAlbersUsa} from "d3-geo";
 import {assertProjectionEqual} from "./asserts.js";
 
 it("albersUsa(point) and albersUsa.invert(point) returns the expected result", () => {

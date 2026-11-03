@@ -1,6 +1,6 @@
 import assert from "node:assert";
 import {it} from "vitest";
-import {geoMercator, geoPath} from "../../src/index.js";
+import {geoMercator, geoPath} from "d3-geo";
 import {assertPathEqual} from "../asserts.js";
 
 it("mercator.clipExtent(null) sets the default automatic clip extent", () => {

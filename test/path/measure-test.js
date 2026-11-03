@@ -1,6 +1,6 @@
 import assert from "node:assert";
 import {it} from "vitest";
-import {geoPath} from "../../src/index.js";
+import {geoPath} from "d3-geo";
 
 it("geoPath.measure(…) of a Point", () => {
   assert.strictEqual(geoPath().measure({
