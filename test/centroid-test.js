@@ -1,6 +1,6 @@
+import assert from "node:assert";
+import {readFileSync} from "node:fs";
 import {it} from "vitest";
-import assert from "assert";
-import {readFileSync} from "fs";
 import {range} from "d3-array";
 import {geoCentroid, geoCircle} from "../src/index.js";
 import {assertInDelta} from "./asserts.js";

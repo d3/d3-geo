@@ -1,5 +1,5 @@
+import assert from "node:assert";
 import {it} from "vitest";
-import assert from "assert";
 import {geoAlbers, geoEquirectangular, geoPath} from "../../src/index.js";
 import {testContext} from "./test-context.js";
 

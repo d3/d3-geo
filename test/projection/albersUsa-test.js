@@ -1,5 +1,5 @@
+import assert from "node:assert";
 import {it} from "vitest";
-import assert from "assert";
 import {geoAlbersUsa} from "../../src/index.js";
 import {assertProjectionEqual} from "./asserts.js";
 

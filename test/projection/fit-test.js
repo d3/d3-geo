@@ -1,6 +1,6 @@
+import assert from "node:assert";
+import {readFileSync} from "node:fs";
 import {it} from "vitest";
-import assert from "assert";
-import {readFileSync} from "fs";
 import {feature} from "topojson-client";
 import {geoAlbersUsa, geoAzimuthalEqualArea, geoAzimuthalEquidistant, geoConicConformal, geoConicEqualArea, geoConicEquidistant, geoEquirectangular, geoGnomonic, geoMercator, geoOrthographic, geoProjection, geoStereographic, geoTransverseMercator} from "../../src/index.js";
 import {assertInDelta} from "../asserts.js";

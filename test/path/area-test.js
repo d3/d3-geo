@@ -1,5 +1,5 @@
+import assert from "node:assert";
 import {it} from "vitest";
-import assert from "assert";
 import {geoEquirectangular, geoPath} from "../../src/index.js";
 
 const equirectangular = geoEquirectangular()

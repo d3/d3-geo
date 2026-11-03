@@ -1,5 +1,5 @@
+import assert from "node:assert";
 import {it} from "vitest";
-import assert from "assert";
 import {geoStream} from "../src/index.js";
 
 it("geoStream(object) ignores unknown types", () => {

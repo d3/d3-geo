@@ -1,5 +1,5 @@
+import assert from "node:assert";
 import {it} from "vitest";
-import assert from "assert";
 import {geoPath} from "../../src/index.js";
 
 it("geoPath.measure(…) of a Point", () => {

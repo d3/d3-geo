@@ -1,5 +1,5 @@
+import assert from "node:assert";
 import {it} from "vitest";
-import assert from "assert";
 import {geoGnomonic, geoMercator} from "../../src/index.js";
 import {assertInDelta} from "../asserts.js";
 import {assertProjectionEqual} from "./asserts.js";

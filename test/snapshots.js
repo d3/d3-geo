@@ -1,3 +1,4 @@
+import {readFile} from "node:fs/promises";
 import {Canvas} from "canvas";
 import {feature, mesh} from "topojson-client";
 import {
@@ -19,7 +20,6 @@ import {
   geoStereographic,
   geoTransverseMercator
 } from "../src/index.js";
-import {readFile} from "fs/promises";
 
 const width = 960;
 const height = 500;

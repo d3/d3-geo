@@ -1,5 +1,5 @@
+import assert from "node:assert";
 import {it} from "vitest";
-import assert from "assert";
 import {geoAzimuthalEqualArea, geoAzimuthalEquidistant} from "../../src/index.js";
 
 it("azimuthal projections don't crash on the antipode", () => {

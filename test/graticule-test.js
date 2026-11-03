@@ -1,5 +1,5 @@
+import assert from "node:assert";
 import {it} from "vitest";
-import assert from "assert";
 import {extent} from "d3-array";
 import {geoGraticule} from "../src/index.js";
 
