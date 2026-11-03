@@ -1,6 +1,7 @@
-import assert from "assert";
+import assert from "node:assert";
+import {it} from "vitest";
 import {range} from "d3-array";
-import {geoArea, geoCircle, geoGraticule} from "../src/index.js";
+import {geoArea, geoCircle, geoGraticule} from "d3-geo";
 import {assertInDelta} from "./asserts.js";
 
 function stripes(a, b) {

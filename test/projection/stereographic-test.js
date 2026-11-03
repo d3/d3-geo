@@ -1,4 +1,5 @@
-import {geoStereographic} from "../../src/index.js";
+import {it} from "vitest";
+import {geoStereographic} from "d3-geo";
 import {assertProjectionEqual} from "./asserts.js";
 
 it("stereographic(point) returns the expected result", () => {

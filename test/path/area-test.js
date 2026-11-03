@@ -1,5 +1,6 @@
-import assert from "assert";
-import {geoEquirectangular, geoPath} from "../../src/index.js";
+import assert from "node:assert";
+import {it} from "vitest";
+import {geoEquirectangular, geoPath} from "d3-geo";
 
 const equirectangular = geoEquirectangular()
     .scale(900 / Math.PI)

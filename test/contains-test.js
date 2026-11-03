@@ -1,5 +1,6 @@
-import assert from "assert";
-import {geoCircle, geoContains, geoInterpolate} from "../src/index.js";
+import assert from "node:assert";
+import {it} from "vitest";
+import {geoCircle, geoContains, geoInterpolate} from "d3-geo";
 
 it("a sphere contains any point", () => {
   assert.strictEqual(geoContains({type: "Sphere"}, [0, 0]), true);
@@ -126,4 +127,3 @@ it("a FeatureCollection contains a point", () => {
 it("null contains nothing", () => {
   assert.strictEqual(geoContains(null, [0, 0]), false);
 });
-

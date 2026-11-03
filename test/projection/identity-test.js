@@ -1,5 +1,6 @@
-import assert from "assert";
-import {geoIdentity, geoPath} from "../../src/index.js";
+import assert from "node:assert";
+import {it} from "vitest";
+import {geoIdentity, geoPath} from "d3-geo";
 import {assertProjectionEqual} from "./asserts.js";
 
 it("identity(point) returns the point", () => {

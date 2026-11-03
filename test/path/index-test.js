@@ -1,5 +1,6 @@
-import assert from "assert";
-import {geoAlbers, geoEquirectangular, geoPath} from "../../src/index.js";
+import assert from "node:assert";
+import {it} from "vitest";
+import {geoAlbers, geoEquirectangular, geoPath} from "d3-geo";
 import {testContext} from "./test-context.js";
 
 const equirectangular = geoEquirectangular()

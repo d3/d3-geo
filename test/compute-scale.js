@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import {format} from "d3-format";
-import * as d3 from "../src/index.js";
+import * as d3 from "d3-geo";
 
 const width = 960 - 1;
 const height = 500 - 1;

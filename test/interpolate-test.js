@@ -1,5 +1,6 @@
-import assert from "assert";
-import {geoInterpolate} from "../src/index.js";
+import assert from "node:assert";
+import {it} from "vitest";
+import {geoInterpolate} from "d3-geo";
 import {assertInDelta} from "./asserts.js";
 
 it("geoInterpolate(a, a) returns a", () => {

@@ -1,5 +1,6 @@
-import assert from "assert";
-import {geoRotation} from "../src/index.js";
+import assert from "node:assert";
+import {it} from "vitest";
+import {geoRotation} from "d3-geo";
 import {assertInDelta} from "./asserts.js";
 
 it("a rotation of [+90°, 0°] only rotates longitude", () => {

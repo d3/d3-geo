@@ -1,6 +1,7 @@
-import assert from "assert";
+import assert from "node:assert";
+import {it} from "vitest";
 import {range} from "d3-array";
-import {geoCircle} from "../src/index.js";
+import {geoCircle} from "d3-geo";
 import {assertInDelta} from "./asserts.js";
 
 it("circle generates a Polygon", () => {

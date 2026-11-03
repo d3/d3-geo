@@ -7,6 +7,6 @@ This module uses spherical [GeoJSON](http://geojson.org/geojson-spec.html) to re
 ## Resources
 
 - [Documentation](https://d3js.org/d3-geo)
-- [Examples](https://observablehq.com/collection/@d3/d3-geo)
+- [Examples](https://observablehq.com/@d3/-/collection/d3-geo)
 - [Releases](https://github.com/d3/d3-geo/releases)
 - [Getting help](https://d3js.org/community)

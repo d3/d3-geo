@@ -1,5 +1,6 @@
-import assert from "assert";
-import {geoBounds} from "../src/index.js";
+import assert from "node:assert";
+import {it} from "vitest";
+import {geoBounds} from "d3-geo";
 import {assertInDelta} from "./asserts.js";
 
 it("bounds: Feature", () => {

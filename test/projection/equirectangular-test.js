@@ -1,4 +1,5 @@
-import {geoEquirectangular} from "../../src/index.js";
+import {it} from "vitest";
+import {geoEquirectangular} from "d3-geo";
 import {assertProjectionEqual} from "./asserts.js";
 
 const pi = Math.PI;
