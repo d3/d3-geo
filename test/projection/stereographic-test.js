@@ -1,8 +1,8 @@
-import {test} from "vitest";
+import {it} from "vitest";
 import {geoStereographic} from "../../src/index.js";
 import {assertProjectionEqual} from "./asserts.js";
 
-test("stereographic(point) returns the expected result", () => {
+it("stereographic(point) returns the expected result", () => {
   const stereographic = geoStereographic().translate([0, 0]).scale(1);
   assertProjectionEqual(stereographic, [  0,   0], [ 0,  0]);
   assertProjectionEqual(stereographic, [-90,   0], [-1,  0]);

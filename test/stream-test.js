@@ -1,32 +1,32 @@
-import {test} from "vitest";
+import {it} from "vitest";
 import assert from "assert";
 import {geoStream} from "../src/index.js";
 
-test("geoStream(object) ignores unknown types", () => {
+it("geoStream(object) ignores unknown types", () => {
   geoStream({type: "Unknown"}, {});
   geoStream({type: "Feature", geometry: {type: "Unknown"}}, {});
   geoStream({type: "FeatureCollection", features: [{type: "Feature", geometry: {type: "Unknown"}}]}, {});
   geoStream({type: "GeometryCollection", geometries: [{type: "Unknown"}]}, {});
 });
 
-test("geoStream(object) ignores null geometries", () => {
+it("geoStream(object) ignores null geometries", () => {
   geoStream(null, {});
   geoStream({type: "Feature", geometry: null }, {});
   geoStream({type: "FeatureCollection", features: [{type: "Feature", geometry: null }]}, {});
   geoStream({type: "GeometryCollection", geometries: [null]}, {});
 });
 
-test("geoStream(object) returns void", () => {
+it("geoStream(object) returns void", () => {
   assert.strictEqual(geoStream({type: "Point", coordinates: [1, 2]}, {point: function() { return true; }}), undefined);
 });
 
-test("geoStream(object) allows empty multi-geometries", () => {
+it("geoStream(object) allows empty multi-geometries", () => {
   geoStream({type: "MultiPoint", coordinates: []}, {});
   geoStream({type: "MultiLineString", coordinates: []}, {});
   geoStream({type: "MultiPolygon", coordinates: []}, {});
 });
 
-test("geoStream(Sphere) ↦ sphere", () => {
+it("geoStream(Sphere) ↦ sphere", () => {
   let calls = 0;
   geoStream({type: "Sphere"}, {
     sphere: function() {
@@ -37,7 +37,7 @@ test("geoStream(Sphere) ↦ sphere", () => {
   assert.strictEqual(calls, 1);
 });
 
-test("geoStream(Point) ↦ point", () => {
+it("geoStream(Point) ↦ point", () => {
   let calls = 0, coordinates = 0;
   geoStream({type: "Point", coordinates: [1, 2, 3]}, {
     point: function(x, y, z) {
@@ -51,7 +51,7 @@ test("geoStream(Point) ↦ point", () => {
   assert.strictEqual(calls, 1);
 });
 
-test("geoStream(MultiPoint) ↦ point*", () => {
+it("geoStream(MultiPoint) ↦ point*", () => {
   let calls = 0, coordinates = 0;
   geoStream({type: "MultiPoint", coordinates: [[1, 2, 3], [4, 5, 6]]}, {
     point: function(x, y, z) {
@@ -65,7 +65,7 @@ test("geoStream(MultiPoint) ↦ point*", () => {
   assert.strictEqual(calls, 2);
 });
 
-test("geoStream(LineString) ↦ lineStart, point{2,}, lineEnd", () => {
+it("geoStream(LineString) ↦ lineStart, point{2,}, lineEnd", () => {
   let calls = 0, coordinates = 0;
   geoStream({type: "LineString", coordinates: [[1, 2, 3], [4, 5, 6]]}, {
     lineStart: function() {
@@ -87,7 +87,7 @@ test("geoStream(LineString) ↦ lineStart, point{2,}, lineEnd", () => {
   assert.strictEqual(calls, 4);
 });
 
-test("geoStream(MultiLineString) ↦ (lineStart, point{2,}, lineEnd)*", () => {
+it("geoStream(MultiLineString) ↦ (lineStart, point{2,}, lineEnd)*", () => {
   let calls = 0, coordinates = 0;
   geoStream({type: "MultiLineString", coordinates: [[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]]]}, {
     lineStart: function() {
@@ -109,7 +109,7 @@ test("geoStream(MultiLineString) ↦ (lineStart, point{2,}, lineEnd)*", () => {
   assert.strictEqual(calls, 8);
 });
 
-test("geoStream(Polygon) ↦ polygonStart, lineStart, point{2,}, lineEnd, polygonEnd", () => {
+it("geoStream(Polygon) ↦ polygonStart, lineStart, point{2,}, lineEnd, polygonEnd", () => {
   let calls = 0, coordinates = 0;
   geoStream({type: "Polygon", coordinates: [[[1, 2, 3], [4, 5, 6], [1, 2, 3]], [[7, 8, 9], [10, 11, 12], [7, 8, 9]]]}, {
     polygonStart: function() {
@@ -139,7 +139,7 @@ test("geoStream(Polygon) ↦ polygonStart, lineStart, point{2,}, lineEnd, polygo
   assert.strictEqual(calls, 10);
 });
 
-test("geoStream(MultiPolygon) ↦ (polygonStart, lineStart, point{2,}, lineEnd, polygonEnd)*", () => {
+it("geoStream(MultiPolygon) ↦ (polygonStart, lineStart, point{2,}, lineEnd, polygonEnd)*", () => {
   let calls = 0, coordinates = 0;
   geoStream({type: "MultiPolygon", coordinates: [[[[1, 2, 3], [4, 5, 6], [1, 2, 3]]], [[[7, 8, 9], [10, 11, 12], [7, 8, 9]]]]}, {
     polygonStart: function() {
@@ -169,7 +169,7 @@ test("geoStream(MultiPolygon) ↦ (polygonStart, lineStart, point{2,}, lineEnd, 
   assert.strictEqual(calls, 12);
 });
 
-test("geoStream(Feature) ↦ .*", () => {
+it("geoStream(Feature) ↦ .*", () => {
   let calls = 0, coordinates = 0;
   geoStream({type: "Feature", geometry: {type: "Point", coordinates: [1, 2, 3]}}, {
     point: function(x, y, z) {
@@ -183,7 +183,7 @@ test("geoStream(Feature) ↦ .*", () => {
   assert.strictEqual(calls, 1);
 });
 
-test("geoStream(FeatureCollection) ↦ .*", () => {
+it("geoStream(FeatureCollection) ↦ .*", () => {
   let calls = 0, coordinates = 0;
   geoStream({type: "FeatureCollection", features: [{type: "Feature", geometry: {type: "Point", coordinates: [1, 2, 3]}}]}, {
     point: function(x, y, z) {
@@ -197,7 +197,7 @@ test("geoStream(FeatureCollection) ↦ .*", () => {
   assert.strictEqual(calls, 1);
 });
 
-test("geoStream(GeometryCollection) ↦ .*", () => {
+it("geoStream(GeometryCollection) ↦ .*", () => {
   let calls = 0, coordinates = 0;
   geoStream({type: "GeometryCollection", geometries: [{type: "Point", coordinates: [1, 2, 3]}]}, {
     point: function(x, y, z) {

@@ -1,8 +1,8 @@
-import {test} from "vitest";
+import {it} from "vitest";
 import assert from "assert";
 import {geoAzimuthalEqualArea, geoAzimuthalEquidistant} from "../../src/index.js";
 
-test("azimuthal projections don't crash on the antipode", () => {
+it("azimuthal projections don't crash on the antipode", () => {
   for (const p of [
     geoAzimuthalEqualArea()([180, 0]),
     geoAzimuthalEqualArea()([-180, 0]),

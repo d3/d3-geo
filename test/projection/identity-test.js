@@ -1,9 +1,9 @@
-import {test} from "vitest";
+import {it} from "vitest";
 import assert from "assert";
 import {geoIdentity, geoPath} from "../../src/index.js";
 import {assertProjectionEqual} from "./asserts.js";
 
-test("identity(point) returns the point", () => {
+it("identity(point) returns the point", () => {
   const identity = geoIdentity().translate([0, 0]).scale(1);
   assertProjectionEqual(identity, [   0,   0], [   0,   0]);
   assertProjectionEqual(identity, [-180,   0], [-180,   0]);
@@ -12,7 +12,7 @@ test("identity(point) returns the point", () => {
 });
 
 
-test("identity(point).scale(…).translate(…) returns the transformed point", () => {
+it("identity(point).scale(…).translate(…) returns the transformed point", () => {
   const identity = geoIdentity().translate([100, 10]).scale(2);
   assertProjectionEqual(identity, [   0,   0], [ 100,  10]);
   assertProjectionEqual(identity, [-180,   0], [-260,  10]);
@@ -21,7 +21,7 @@ test("identity(point).scale(…).translate(…) returns the transformed point", 
 });
 
 
-test("identity(point).reflectX(…) and reflectY() return the transformed point", () => {
+it("identity(point).reflectX(…) and reflectY() return the transformed point", () => {
   const identity = geoIdentity().translate([100, 10]).scale(2)
     .reflectX(false).reflectY(false);
   assertProjectionEqual(identity, [   3,   7], [ 106,  24]);
@@ -31,7 +31,7 @@ test("identity(point).reflectX(…) and reflectY() return the transformed point"
   assertProjectionEqual(identity.reflectY(false), [   3,   7], [ 106,  24]);
 });
 
-test("geoPath(identity) returns the path", () => {
+it("geoPath(identity) returns the path", () => {
   const identity = geoIdentity().translate([0, 0]).scale(1),
     path = geoPath().projection(identity);
   assert.strictEqual(path({type:"LineString", coordinates: [[0,0], [10,10]]}), "M0,0L10,10");
@@ -39,7 +39,7 @@ test("geoPath(identity) returns the path", () => {
   assert.strictEqual(path({type:"LineString", coordinates: [[0,0], [10,10]]}), "M30,90L50,70");
 });
 
-test("geoPath(identity) respects clipExtent", () => {
+it("geoPath(identity) respects clipExtent", () => {
   const identity = geoIdentity().translate([0, 0]).scale(1),
     path = geoPath().projection(identity);
   identity.clipExtent([[5,5], [40, 80]]);

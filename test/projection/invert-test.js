@@ -1,4 +1,4 @@
-import {test} from "vitest";
+import {it} from "vitest";
 
 import {geoAlbers, geoAlbersUsa, geoAzimuthalEqualArea, geoAzimuthalEquidistant, geoConicConformal, geoConicEqualArea, geoConicEquidistant, geoEqualEarth, geoEquirectangular, geoGnomonic, geoMercator, geoOrthographic, geoStereographic, geoTransverseMercator} from "../../src/index.js";
 import {assertProjectionEqual} from "./asserts.js";
@@ -31,14 +31,14 @@ import {assertProjectionEqual} from "./asserts.js";
   geoTransverseMercator
 ].forEach((factory) => {
   const name = factory.name, projection = factory();
-  test(name + "(point) and " + name + ".invert(point) are symmetric", () => {
+  it(name + "(point) and " + name + ".invert(point) are symmetric", () => {
     [[0, 0], [30.3, 24.1], [-10, 42], [-2, -5]].forEach((point) => {
       assertProjectionEqual(projection, point, projection(point));
     });
   });
 });
 
-test("albersUsa(point) and albersUsa.invert(point) are symmetric", () => {
+it("albersUsa(point) and albersUsa.invert(point) are symmetric", () => {
   const projection = geoAlbersUsa();
   [[-122.4194, 37.7749], [-74.0059, 40.7128], [-149.9003, 61.2181], [-157.8583, 21.3069]].forEach((point) => {
     assertProjectionEqual(projection, point, projection(point));

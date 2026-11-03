@@ -1,8 +1,8 @@
-import {test} from "vitest";
+import {it} from "vitest";
 import {geoMercator, geoPath} from "../../src/index.js";
 import {assertPathEqual} from "../asserts.js";
 
-test("a rotation of a degenerate polygon should not break", () => {
+it("a rotation of a degenerate polygon should not break", () => {
   const projection = geoMercator().rotate([-134.300, 25.776]).scale(750).translate([0, 0]);
   assertPathEqual(geoPath(projection)({
     "type": "Polygon",

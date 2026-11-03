@@ -1,4 +1,4 @@
-import {test} from "vitest";
+import {it} from "vitest";
 import assert from "assert";
 import {range} from "d3-array";
 import {geoArea, geoCircle, geoGraticule} from "../src/index.js";
@@ -12,23 +12,23 @@ function stripes(a, b) {
   })};
 }
 
-test("area: Point", () => {
+it("area: Point", () => {
   assert.strictEqual(geoArea({type: "Point", coordinates: [0, 0]}), 0);
 });
 
-test("area: MultiPoint", () => {
+it("area: MultiPoint", () => {
   assert.strictEqual(geoArea({type: "MultiPoint", coordinates: [[0, 1], [2, 3]]}), 0);
 });
 
-test("area: LineString", () => {
+it("area: LineString", () => {
   assert.strictEqual(geoArea({type: "LineString", coordinates: [[0, 1], [2, 3]]}), 0);
 });
 
-test("area: MultiLineString", () => {
+it("area: MultiLineString", () => {
   assert.strictEqual(geoArea({type: "MultiLineString", coordinates: [[[0, 1], [2, 3]], [[4, 5], [6, 7]]]}), 0);
 });
 
-test("area: Polygon - tiny", () => {
+it("area: Polygon - tiny", () => {
   assertInDelta(geoArea({type: "Polygon", coordinates: [[
     [-64.66070178517852, 18.33986913231323],
     [-64.66079715091509, 18.33994007490749],
@@ -37,7 +37,7 @@ test("area: Polygon - tiny", () => {
   ]]}), 4.890516e-13, 1e-13);
 });
 
-test("area: Polygon - zero area", () => {
+it("area: Polygon - zero area", () => {
   assert.strictEqual(geoArea({
     "type": "Polygon",
     "coordinates": [[
@@ -50,87 +50,87 @@ test("area: Polygon - zero area", () => {
   }), 0);
 });
 
-test("area: Polygon - semilune", () => {
+it("area: Polygon - semilune", () => {
   assertInDelta(geoArea({type: "Polygon", coordinates: [[[0, 0], [0, 90], [90, 0], [0, 0]]]}), Math.PI / 2, 1e-6);
 });
 
-test("area: Polygon - lune", () => {
+it("area: Polygon - lune", () => {
   assertInDelta(geoArea({type: "Polygon", coordinates: [[[0, 0], [0, 90], [90, 0], [0, -90], [0, 0]]]}), Math.PI, 1e-6);
 });
 
-test("area: Polygon - hemispheres North", () => {
+it("area: Polygon - hemispheres North", () => {
   assertInDelta(geoArea({type: "Polygon", coordinates: [[[0, 0], [-90, 0], [180, 0], [90, 0], [0, 0]]]}), 2 * Math.PI, 1e-6);
 });
 
-test("area: Polygon - hemispheres South", () => {
+it("area: Polygon - hemispheres South", () => {
   assertInDelta(geoArea({type: "Polygon", coordinates: [[[0, 0], [90, 0], [180, 0], [-90, 0], [0, 0]]]}), 2 * Math.PI, 1e-6);
 });
 
-test("area: Polygon - hemispheres East", () => {
+it("area: Polygon - hemispheres East", () => {
   assertInDelta(geoArea({type: "Polygon", coordinates: [[[0, 0], [0, 90], [180, 0], [0, -90], [0, 0]]]}), 2 * Math.PI, 1e-6);
 });
 
-test("area: Polygon - hemispheres West", () => {
+it("area: Polygon - hemispheres West", () => {
   assertInDelta(geoArea({type: "Polygon", coordinates: [[[0, 0], [0, -90], [180, 0], [0, 90], [0, 0]]]}), 2 * Math.PI, 1e-6);
 });
 
-test("area: Polygon - graticule outline sphere", () => {
+it("area: Polygon - graticule outline sphere", () => {
   assertInDelta(geoArea(geoGraticule().extent([[-180, -90], [180, 90]]).outline()), 4 * Math.PI, 1e-5);
 });
 
-test("area: Polygon - graticule outline hemisphere", () => {
+it("area: Polygon - graticule outline hemisphere", () => {
   assertInDelta(geoArea(geoGraticule().extent([[-180, 0], [180, 90]]).outline()), 2 * Math.PI, 1e-5);
 });
 
-test("area: Polygon - graticule outline semilune", () => {
+it("area: Polygon - graticule outline semilune", () => {
   assertInDelta(geoArea(geoGraticule().extent([[0, 0], [90, 90]]).outline()), Math.PI / 2, 1e-5);
 });
 
-test("area: Polygon - circles hemisphere", () => {
+it("area: Polygon - circles hemisphere", () => {
   assertInDelta(geoArea(geoCircle().radius(90)()), 2 * Math.PI, 1e-5);
 });
 
-test("area: Polygon - circles 60°", () => {
+it("area: Polygon - circles 60°", () => {
   assertInDelta(geoArea(geoCircle().radius(60).precision(0.1)()), Math.PI, 1e-5);
 });
 
-test("area: Polygon - circles 60° North", () => {
+it("area: Polygon - circles 60° North", () => {
   assertInDelta(geoArea(geoCircle().radius(60).precision(0.1).center([0, 90])()), Math.PI, 1e-5);
 });
 
-test("area: Polygon - circles 45°", () => {
+it("area: Polygon - circles 45°", () => {
   assertInDelta(geoArea(geoCircle().radius(45).precision(0.1)()), Math.PI * (2 - Math.SQRT2), 1e-5);
 });
 
-test("area: Polygon - circles 45° North", () => {
+it("area: Polygon - circles 45° North", () => {
   assertInDelta(geoArea(geoCircle().radius(45).precision(0.1).center([0, 90])()), Math.PI * (2 - Math.SQRT2), 1e-5);
 });
 
-test("area: Polygon - circles 45° South", () => {
+it("area: Polygon - circles 45° South", () => {
   assertInDelta(geoArea(geoCircle().radius(45).precision(0.1).center([0, -90])()), Math.PI * (2 - Math.SQRT2), 1e-5);
 });
 
-test("area: Polygon - circles 135°", () => {
+it("area: Polygon - circles 135°", () => {
   assertInDelta(geoArea(geoCircle().radius(135).precision(0.1)()), Math.PI * (2 + Math.SQRT2), 1e-5);
 });
 
-test("area: Polygon - circles 135° North", () => {
+it("area: Polygon - circles 135° North", () => {
   assertInDelta(geoArea(geoCircle().radius(135).precision(0.1).center([0, 90])()), Math.PI * (2 + Math.SQRT2), 1e-5);
 });
 
-test("area: Polygon - circles 135° South", () => {
+it("area: Polygon - circles 135° South", () => {
   assertInDelta(geoArea(geoCircle().radius(135).precision(0.1).center([0, -90])()), Math.PI * (2 + Math.SQRT2), 1e-5);
 });
 
-test("area: Polygon - circles tiny", () => {
+it("area: Polygon - circles tiny", () => {
   assertInDelta(geoArea(geoCircle().radius(1e-6).precision(0.1)()), 0, 1e-6);
 });
 
-test("area: Polygon - circles huge", () => {
+it("area: Polygon - circles huge", () => {
   assertInDelta(geoArea(geoCircle().radius(180 - 1e-6).precision(0.1)()), 4 * Math.PI, 1e-6);
 });
 
-test("area: Polygon - circles 60° with 45° hole", () => {
+it("area: Polygon - circles 60° with 45° hole", () => {
   const circle = geoCircle().precision(0.1);
   assertInDelta(geoArea({
     type: "Polygon",
@@ -141,7 +141,7 @@ test("area: Polygon - circles 60° with 45° hole", () => {
   }), Math.PI * (Math.SQRT2 - 1), 1e-5);
 });
 
-test("area: Polygon - circles 45° holes at [0°, 0°] and [0°, 90°]", () => {
+it("area: Polygon - circles 45° holes at [0°, 0°] and [0°, 90°]", () => {
   const circle = geoCircle().precision(0.1).radius(45);
   assertInDelta(geoArea({
     type: "Polygon",
@@ -152,7 +152,7 @@ test("area: Polygon - circles 45° holes at [0°, 0°] and [0°, 90°]", () => {
   }), Math.PI * 2 * Math.SQRT2, 1e-5);
 });
 
-test("area: Polygon - circles 45° holes at [0°, 90°] and [0°, 0°]", () => {
+it("area: Polygon - circles 45° holes at [0°, 90°] and [0°, 0°]", () => {
   const circle = geoCircle().precision(0.1).radius(45);
   assertInDelta(geoArea({
     type: "Polygon",
@@ -163,37 +163,37 @@ test("area: Polygon - circles 45° holes at [0°, 90°] and [0°, 0°]", () => {
   }), Math.PI * 2 * Math.SQRT2, 1e-5);
 });
 
-test("area: Polygon - stripes 45°, -45°", () => {
+it("area: Polygon - stripes 45°, -45°", () => {
   assertInDelta(geoArea(stripes(45, -45)), Math.PI * 2 * Math.SQRT2, 1e-5);
 });
 
-test("area: Polygon - stripes -45°, 45°", () => {
+it("area: Polygon - stripes -45°, 45°", () => {
   assertInDelta(geoArea(stripes(-45, 45)), Math.PI * 2 * (2 - Math.SQRT2), 1e-5);
 });
 
-test("area: Polygon - stripes 45°, 30°", () => {
+it("area: Polygon - stripes 45°, 30°", () => {
   assertInDelta(geoArea(stripes(45, 30)), Math.PI * (Math.SQRT2 - 1), 1e-5);
 });
 
-test("area: MultiPolygon two hemispheres", () => {
+it("area: MultiPolygon two hemispheres", () => {
   assert.strictEqual(geoArea({type: "MultiPolygon", coordinates: [
     [[[0, 0], [-90, 0], [180, 0], [90, 0], [0, 0]]],
     [[[0, 0], [90, 0], [180, 0], [-90, 0], [0, 0]]]
   ]}), 4 * Math.PI);
 });
 
-test("area: Sphere", () => {
+it("area: Sphere", () => {
   assert.strictEqual(geoArea({type: "Sphere"}), 4 * Math.PI);
 });
 
-test("area: GeometryCollection", () => {
+it("area: GeometryCollection", () => {
   assert.strictEqual(geoArea({type: "GeometryCollection", geometries: [{type: "Sphere"}]}), 4 * Math.PI);
 });
 
-test("area: FeatureCollection", () => {
+it("area: FeatureCollection", () => {
   assert.strictEqual(geoArea({type: "FeatureCollection", features: [{type: "Feature", geometry: {type: "Sphere"}}]}), 4 * Math.PI);
 });
 
-test("area: Feature", () => {
+it("area: Feature", () => {
   assert.strictEqual(geoArea({type: "Feature", geometry: {type: "Sphere"}}), 4 * Math.PI);
 });

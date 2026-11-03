@@ -1,16 +1,16 @@
-import {test} from "vitest";
+import {it} from "vitest";
 import assert from "assert";
 import {extent} from "d3-array";
 import {geoGraticule} from "../src/index.js";
 
-test("graticule.extent() gets precision", () => {
+it("graticule.extent() gets precision", () => {
   const g = geoGraticule();
   assert.strictEqual(g.precision(), 2.5);
   g.precision(999);
   assert.strictEqual(g.precision(), 999);
 });
 
-test("graticule.extent(…) sets extentMinor and extentMajor", () => {
+it("graticule.extent(…) sets extentMinor and extentMajor", () => {
   const g = geoGraticule().extent([[-90, -45], [90, 45]]);
   assert.deepStrictEqual(g.extentMinor(), [[-90, -45], [90, 45]]);
   assert.deepStrictEqual(g.extentMajor(), [[-90, -45], [90, 45]]);
@@ -20,24 +20,24 @@ test("graticule.extent(…) sets extentMinor and extentMajor", () => {
   assert.deepStrictEqual(gReversed.extentMajor(), [[-90, -45], [90, 45]]);
 });
 
-test("graticule.extent() gets extentMinor", () => {
+it("graticule.extent() gets extentMinor", () => {
   const g = geoGraticule().extentMinor([[-90, -45], [90, 45]]);
   assert.deepStrictEqual(g.extent(), [[-90, -45], [90, 45]]);
 });
 
-test("graticule.extentMajor() default longitude ranges from 180°W (inclusive) to 180°E (exclusive)", () => {
+it("graticule.extentMajor() default longitude ranges from 180°W (inclusive) to 180°E (exclusive)", () => {
   const e = geoGraticule().extentMajor();
   assert.strictEqual(e[0][0], -180);
   assert.strictEqual(e[1][0], +180);
 });
 
-test("graticule.extentMajor() default latitude ranges from 90°S (exclusive) to 90°N (exclusive)", () => {
+it("graticule.extentMajor() default latitude ranges from 90°S (exclusive) to 90°N (exclusive)", () => {
   const e = geoGraticule().extentMajor();
   assert.strictEqual(e[0][1], -90 + 1e-6);
   assert.strictEqual(e[1][1], +90 - 1e-6);
 });
 
-test("graticule.extentMajor(…) coerces input values to numbers", () => {
+it("graticule.extentMajor(…) coerces input values to numbers", () => {
   const g = geoGraticule().extentMajor([["-90", "-45"], ["+90", "+45"]]);
   const e = g.extentMajor();
   assert.strictEqual(e[0][0], -90);
@@ -46,19 +46,19 @@ test("graticule.extentMajor(…) coerces input values to numbers", () => {
   assert.strictEqual(e[1][1], +45);
 });
 
-test("graticule.extentMinor() default longitude ranges from 180°W (inclusive) to 180°E (exclusive)", () => {
+it("graticule.extentMinor() default longitude ranges from 180°W (inclusive) to 180°E (exclusive)", () => {
   const e = geoGraticule().extentMinor();
   assert.strictEqual(e[0][0], -180);
   assert.strictEqual(e[1][0], +180);
 });
 
-test("graticule.extentMinor() default latitude ranges from 80°S (inclusive) to 80°N (inclusive)", () => {
+it("graticule.extentMinor() default latitude ranges from 80°S (inclusive) to 80°N (inclusive)", () => {
   const e = geoGraticule().extentMinor();
   assert.strictEqual(e[0][1], -80 - 1e-6);
   assert.strictEqual(e[1][1], +80 + 1e-6);
 });
 
-test("graticule.extentMinor(…) coerces input values to numbers", () => {
+it("graticule.extentMinor(…) coerces input values to numbers", () => {
   const g = geoGraticule().extentMinor([["-90", "-45"], ["+90", "+45"]]);
   const e = g.extentMinor();
   assert.strictEqual(e[0][0], -90);
@@ -67,40 +67,40 @@ test("graticule.extentMinor(…) coerces input values to numbers", () => {
   assert.strictEqual(e[1][1], +45);
 });
 
-test("graticule.step(…) sets the minor and major step", () => {
+it("graticule.step(…) sets the minor and major step", () => {
   const g = geoGraticule().step([22.5, 22.5]);
   assert.deepStrictEqual(g.stepMinor(), [22.5, 22.5]);
   assert.deepStrictEqual(g.stepMajor(), [22.5, 22.5]);
 });
 
-test("graticule.step() gets the minor step", () => {
+it("graticule.step() gets the minor step", () => {
   const g = geoGraticule().stepMinor([22.5, 22.5]);
   assert.deepStrictEqual(g.step(), [22.5, 22.5]);
 });
 
-test("graticule.stepMinor() defaults to 10°, 10°", () => {
+it("graticule.stepMinor() defaults to 10°, 10°", () => {
   assert.deepStrictEqual(geoGraticule().stepMinor(), [10, 10]);
 });
 
-test("graticule.stepMinor(…) coerces input values to numbers", () => {
+it("graticule.stepMinor(…) coerces input values to numbers", () => {
   const g = geoGraticule().stepMinor(["45", "11.25"]);
   const s = g.stepMinor();
   assert.strictEqual(s[0], 45);
   assert.strictEqual(s[1], 11.25);
 });
 
-test("graticule.stepMajor() defaults to 90°, 360°", () => {
+it("graticule.stepMajor() defaults to 90°, 360°", () => {
   assert.deepStrictEqual(geoGraticule().stepMajor(), [90, 360]);
 });
 
-test("graticule.stepMajor(…) coerces input values to numbers", () => {
+it("graticule.stepMajor(…) coerces input values to numbers", () => {
   const g = geoGraticule().stepMajor(["45", "11.25"]);
   const s = g.stepMajor();
   assert.strictEqual(s[0], 45);
   assert.strictEqual(s[1], 11.25);
 });
 
-test("graticule.lines() default longitude ranges from 180°W (inclusive) to 180°E (exclusive)", () => {
+it("graticule.lines() default longitude ranges from 180°W (inclusive) to 180°E (exclusive)", () => {
   const lines = geoGraticule().lines()
       .filter((line) => line.coordinates[0][0] === line.coordinates[1][0])
       .sort((a, b) => a.coordinates[0][0] - b.coordinates[0][0]);
@@ -108,7 +108,7 @@ test("graticule.lines() default longitude ranges from 180°W (inclusive) to 180�
   assert.strictEqual(lines[lines.length - 1].coordinates[0][0], +170);
 });
 
-test("graticule.lines() default latitude ranges from 90°S (exclusive) to 90°N (exclusive)", () => {
+it("graticule.lines() default latitude ranges from 90°S (exclusive) to 90°N (exclusive)", () => {
   const lines = geoGraticule().lines()
       .filter(line => line.coordinates[0][1] === line.coordinates[1][1])
       .sort((a, b) => a.coordinates[0][1] - b.coordinates[0][1]);
@@ -116,7 +116,7 @@ test("graticule.lines() default latitude ranges from 90°S (exclusive) to 90°N 
   assert.strictEqual(lines[lines.length - 1].coordinates[0][1], +80);
 });
 
-test("graticule.lines() default minor longitude lines extend from 80°S to 80°N", () => {
+it("graticule.lines() default minor longitude lines extend from 80°S to 80°N", () => {
   const lines = geoGraticule().lines()
       .filter(line => line.coordinates[0][0] === line.coordinates[1][0])
       .filter(line => Math.abs(line.coordinates[0][0] % 90) > 1e-6);
@@ -125,7 +125,7 @@ test("graticule.lines() default minor longitude lines extend from 80°S to 80°N
   });
 });
 
-test("graticule.lines() default major longitude lines extend from 90°S to 90°N", () => {
+it("graticule.lines() default major longitude lines extend from 90°S to 90°N", () => {
   const lines = geoGraticule().lines()
       .filter(line => line.coordinates[0][0] === line.coordinates[1][0])
       .filter(line => Math.abs(line.coordinates[0][0] % 90) < 1e-6);
@@ -134,7 +134,7 @@ test("graticule.lines() default major longitude lines extend from 90°S to 90°N
   });
 });
 
-test("graticule.lines() default latitude lines extend from 180°W to 180°E", () => {
+it("graticule.lines() default latitude lines extend from 180°W to 180°E", () => {
   const lines = geoGraticule().lines()
       .filter(line => line.coordinates[0][1] === line.coordinates[1][1]);
   lines.forEach(function(line) {
@@ -142,7 +142,7 @@ test("graticule.lines() default latitude lines extend from 180°W to 180°E", ()
   });
 });
 
-test("graticule.lines() returns an array of LineStrings", () => {
+it("graticule.lines() returns an array of LineStrings", () => {
   assert.deepStrictEqual(geoGraticule()
       .extent([[-90, -45], [90, 45]])
       .step([45, 45])
@@ -157,7 +157,7 @@ test("graticule.lines() returns an array of LineStrings", () => {
   ]);
 });
 
-test("graticule() returns a MultiLineString of all lines", () => {
+it("graticule() returns a MultiLineString of all lines", () => {
   const g = geoGraticule()
       .extent([[-90, -45], [90, 45]])
       .step([45, 45])
@@ -168,7 +168,7 @@ test("graticule() returns a MultiLineString of all lines", () => {
   });
 });
 
-test("graticule.outline() returns a Polygon encompassing the major extent", () => {
+it("graticule.outline() returns a Polygon encompassing the major extent", () => {
   assert.deepStrictEqual(geoGraticule()
       .extentMajor([[-90, -45], [90, 45]])
       .precision(3)
