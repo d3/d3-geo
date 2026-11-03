@@ -1,6 +1,6 @@
 {
   "name": "d3-geo",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "Shapes and calculators for spherical coordinates.",
   "homepage": "https://d3js.org/d3-geo/",
   "repository": {
