@@ -1,6 +1,6 @@
 import assert from "node:assert";
 import {it} from "vitest";
-import {geoDistance} from "../src/index.js";
+import {geoDistance} from "d3-geo";
 import {assertInDelta} from "./asserts.js";
 
 it("geoDistance(a, b) computes the great-arc distance in radians between the two points a and b", () => {

@@ -1,5 +1,5 @@
 import {it} from "vitest";
-import {geoLength} from "../src/index.js";
+import {geoLength} from "d3-geo";
 import {assertInDelta} from "./asserts.js";
 
 it("geoLength(Point) returns zero", () => {

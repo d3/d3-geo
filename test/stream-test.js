@@ -1,6 +1,6 @@
 import assert from "node:assert";
 import {it} from "vitest";
-import {geoStream} from "../src/index.js";
+import {geoStream} from "d3-geo";
 
 it("geoStream(object) ignores unknown types", () => {
   geoStream({type: "Unknown"}, {});

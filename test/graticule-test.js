@@ -1,7 +1,7 @@
 import assert from "node:assert";
 import {it} from "vitest";
 import {extent} from "d3-array";
-import {geoGraticule} from "../src/index.js";
+import {geoGraticule} from "d3-geo";
 
 it("graticule.extent() gets precision", () => {
   const g = geoGraticule();

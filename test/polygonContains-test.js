@@ -1,6 +1,6 @@
 import assert from "node:assert";
 import {it} from "vitest";
-import {geoCircle} from "../src/index.js";
+import {geoCircle} from "d3-geo";
 import contains from "../src/polygonContains.js";
 
 function polygonContains(polygon, point) {

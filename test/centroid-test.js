@@ -2,7 +2,7 @@ import assert from "node:assert";
 import {readFileSync} from "node:fs";
 import {it} from "vitest";
 import {range} from "d3-array";
-import {geoCentroid, geoCircle} from "../src/index.js";
+import {geoCentroid, geoCircle} from "d3-geo";
 import {assertInDelta} from "./asserts.js";
 
 it("the centroid of a point is itself", () => {

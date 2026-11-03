@@ -19,7 +19,7 @@ import {
   geoPath,
   geoStereographic,
   geoTransverseMercator
-} from "../src/index.js";
+} from "d3-geo";
 
 const width = 960;
 const height = 500;
