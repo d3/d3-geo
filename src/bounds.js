@@ -67,22 +67,24 @@ function linePoint(lambda, phi) {
       if (phi < phi0) phi0 = phi;
       if (phi > phi1) phi1 = phi;
     }
-    if (antimeridian) {
-      if (lambda < lambda2) {
-        if (angle(lambda0, lambda) > angle(lambda0, lambda1)) lambda1 = lambda;
-      } else {
-        if (angle(lambda, lambda1) > angle(lambda0, lambda1)) lambda0 = lambda;
-      }
+    if (!antimeridian && lambda1 >= lambda0 && lambda2 >= lambda0 && lambda2 <= lambda1) {
+      if (lambda < lambda0) lambda0 = lambda;
+      if (lambda > lambda1) lambda1 = lambda;
     } else {
-      if (lambda1 >= lambda0) {
-        if (lambda < lambda0) lambda0 = lambda;
-        if (lambda > lambda1) lambda1 = lambda;
-      } else {
-        if (lambda > lambda2) {
-          if (angle(lambda0, lambda) > angle(lambda0, lambda1)) lambda1 = lambda;
-        } else {
-          if (angle(lambda, lambda1) > angle(lambda0, lambda1)) lambda0 = lambda;
-        }
+      // Extend in the direction of the shortest arc. Distances modulo 360 treat
+      // -180 and +180 as the same endpoint without losing full circles.
+      if (antimeridian) delta += delta > 0 ? -360 : 360;
+      var width = angle(lambda0, lambda1), previous, current;
+      if (width < 360 && delta > 0) {
+        previous = angle(lambda0, lambda2) % 360;
+        current = angle(lambda0, lambda) % 360;
+        if (current < previous) lambda0 = -(lambda1 = 180);
+        else if (current > width) lambda1 = lambda;
+      } else if (width < 360 && delta < 0) {
+        previous = angle(lambda2, lambda1) % 360;
+        current = angle(lambda, lambda1) % 360;
+        if (current < previous) lambda0 = -(lambda1 = 180);
+        else if (current > width) lambda0 = lambda;
       }
     }
   } else {
