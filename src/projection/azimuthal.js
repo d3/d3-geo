@@ -1,4 +1,4 @@
-import {asin, atan2, cos, sin, sqrt} from "../math.js";
+import {atan2, cos, sin, sqrt} from "../math.js";
 
 export function azimuthalRaw(scale) {
   return function(x, y) {
@@ -19,9 +19,11 @@ export function azimuthalInvert(angle) {
         c = angle(z),
         sc = sin(c),
         cc = cos(c);
+    // asin(y * sc / z), but from atan2() so that it stays accurate close to
+    // the poles, where asin() of a value close to 1 loses half the digits
     return [
       atan2(x * sc, z * cc),
-      asin(z && y * sc / z)
+      atan2(y * sc, sqrt(x * x * sc * sc + z * z * cc * cc))
     ];
   }
 }
