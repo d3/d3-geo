@@ -56,13 +56,11 @@ function areaPoint(lambda, phi) {
   // previous point, current point.  Uses a formula derived from Cagnoli’s
   // theorem.  See Todhunter, Spherical Trig. (1871), Sec. 103, Eq. (2).
   var dLambda = lambda - lambda0,
-      sdLambda = dLambda >= 0 ? 1 : -1,
-      adLambda = sdLambda * dLambda,
       cosPhi = cos(phi),
       sinPhi = sin(phi),
       k = sinPhi0 * sinPhi,
-      u = cosPhi0 * cosPhi + k * cos(adLambda),
-      v = k * sdLambda * sin(adLambda);
+      u = cosPhi0 * cosPhi + k * cos(dLambda),
+      v = k * sin(dLambda);
   areaRingSum.add(atan2(v, u));
 
   // Advance the previous points.
