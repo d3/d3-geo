@@ -22,13 +22,9 @@ it("circle.center([45, 45])", () => {
   assertInDelta(o.coordinates[0][0], [45, 45], 1e-6);
 });
 
-it("circle: first and last points are identical", () => {
+it("circle: the closing point is a copy of the first point", () => {
   const [ring] = geoCircle().center([-74.006, 40.7128]).radius(8.993216059187306)().coordinates;
   assert.deepStrictEqual(ring[0], ring[ring.length - 1]);
-});
-
-it("circle: closing point is a copy of the first point", () => {
-  const [ring] = geoCircle()().coordinates;
   assert.notStrictEqual(ring[0], ring[ring.length - 1]);
 });
 
