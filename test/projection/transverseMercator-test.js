@@ -45,8 +45,8 @@ it("transverseMercator.rotate(…) does not affect the automatic clip extent", (
   };
   projection.fitExtent([[0, 0], [960, 600]], object);
   assert.deepStrictEqual(projection.scale(), 15724992.330511674);
-  assert.deepStrictEqual(projection.translate(), [20418843.897824813, 21088401.790971387]);
+  assert.deepStrictEqual(projection.translate(), [20418843.897824816, 21088401.790971387]);
   projection.rotate([0, 95]).fitExtent([[0, 0], [960, 600]], object);
   assert.deepStrictEqual(projection.scale(), 15724992.330511674);
-  assert.deepStrictEqual(projection.translate(), [20418843.897824813, 47161426.43770847]);
+  assert.deepStrictEqual(projection.translate(), [20418843.897824816, 47161426.43770847]);
 });

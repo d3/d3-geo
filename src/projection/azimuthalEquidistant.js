@@ -1,10 +1,18 @@
-import {acos, sin} from "../math.js";
-import {azimuthalRaw, azimuthalInvert} from "./azimuthal.js";
+import {atan2, cos, sin, sqrt} from "../math.js";
+import {azimuthalInvert} from "./azimuthal.js";
 import projection from "./index.js";
 
-export var azimuthalEquidistantRaw = azimuthalRaw(function(c) {
-  return (c = acos(c)) && c / sin(c);
-});
+// c / sin(c) times the direction, where c is the angular distance from the
+// centre. sin(c) and c are taken from sqrt() and atan2(): acos(cos(c)) lost
+// half the digits close to the centre.
+export function azimuthalEquidistantRaw(x, y) {
+  var cy = cos(y),
+      u = cy * sin(x),
+      v = sin(y),
+      sc = sqrt(u * u + v * v),
+      k = sc ? atan2(sc, cy * cos(x)) / sc : 1;
+  return [k * u, k * v];
+}
 
 azimuthalEquidistantRaw.invert = azimuthalInvert(function(z) {
   return z;

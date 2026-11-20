@@ -1,5 +1,5 @@
 import compose from "./compose.js";
-import {abs, asin, atan2, cos, degrees, pi, radians, sin, tau} from "./math.js";
+import {abs, atan2, cos, degrees, pi, radians, sin, sqrt, tau} from "./math.js";
 
 function rotationIdentity(lambda, phi) {
   if (abs(lambda) > pi) lambda -= Math.round(lambda / tau) * tau;
@@ -40,10 +40,15 @@ function rotationPhiGamma(deltaPhi, deltaGamma) {
         x = cos(lambda) * cosPhi,
         y = sin(lambda) * cosPhi,
         z = sin(phi),
-        k = z * cosDeltaPhi + x * sinDeltaPhi;
+        k = z * cosDeltaPhi + x * sinDeltaPhi,
+        a = y * cosDeltaGamma - k * sinDeltaGamma,
+        b = x * cosDeltaPhi - z * sinDeltaPhi;
+    // the rotated unit vector is [b, a, k * cosDeltaGamma + y * sinDeltaGamma]:
+    // its latitude from atan2() stays accurate close to the poles, where asin()
+    // lost half the digits
     return [
-      atan2(y * cosDeltaGamma - k * sinDeltaGamma, x * cosDeltaPhi - z * sinDeltaPhi),
-      asin(k * cosDeltaGamma + y * sinDeltaGamma)
+      atan2(a, b),
+      atan2(k * cosDeltaGamma + y * sinDeltaGamma, sqrt(a * a + b * b))
     ];
   }
 
@@ -52,10 +57,12 @@ function rotationPhiGamma(deltaPhi, deltaGamma) {
         x = cos(lambda) * cosPhi,
         y = sin(lambda) * cosPhi,
         z = sin(phi),
-        k = z * cosDeltaGamma - y * sinDeltaGamma;
+        k = z * cosDeltaGamma - y * sinDeltaGamma,
+        a = y * cosDeltaGamma + z * sinDeltaGamma,
+        b = x * cosDeltaPhi + k * sinDeltaPhi;
     return [
-      atan2(y * cosDeltaGamma + z * sinDeltaGamma, x * cosDeltaPhi + k * sinDeltaPhi),
-      asin(k * cosDeltaPhi - x * sinDeltaPhi)
+      atan2(a, b),
+      atan2(k * cosDeltaPhi - x * sinDeltaPhi, sqrt(a * a + b * b))
     ];
   };
 
