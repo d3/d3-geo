@@ -51,6 +51,7 @@ export default function() {
     ring = [];
     rotate = rotateRadians(-c[0] * radians, -c[1] * radians, 0).invert;
     circleStream(stream, r, p, 1);
+    if (ring.length) ring[ring.length - 1] = ring[0].slice();
     c = {type: "Polygon", coordinates: [ring]};
     ring = rotate = null;
     return c;
